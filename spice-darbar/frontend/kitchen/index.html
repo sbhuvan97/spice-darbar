@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spice Darbar — Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sf:#FF9933;--sf2:#FFB347;
+  --gn:#1E8449;--gn2:#27AE60;
+  --rd:#C0392B;--am:#E67E22;
+  --dk:#0D0600;--dk2:#1A0A02;--card:#180C04;
+  --bd:rgba(255,153,51,.14);--tx:#F5EDD8;--mu:#9B7050;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--dk);font-family:'Plus Jakarta Sans',sans-serif;color:var(--tx);min-height:100vh;display:flex;flex-direction:column;}
+
+/* LOGIN */
+.login{position:fixed;inset:0;background:var(--dk);display:flex;align-items:center;justify-content:center;z-index:999;}
+.lcard{background:var(--card);border-radius:20px;padding:36px 32px;width:90%;max-width:360px;border:1.5px solid var(--sf);text-align:center;}
+.lcard h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--sf);margin-bottom:6px;}
+.lcard p{color:var(--mu);font-size:13px;margin-bottom:24px;}
+.lcard input{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--bd);border-radius:10px;padding:11px 14px;color:var(--tx);font-size:14px;font-family:inherit;outline:none;margin-bottom:12px;}
+.lcard input::placeholder{color:var(--mu);}
+.lbtn{width:100%;background:var(--sf);color:var(--dk);border:none;padding:13px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;}
+.lerr{color:#e74c3c;font-size:13px;margin-top:10px;}
+
+/* HEADER */
+.hdr{background:var(--dk2);padding:13px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--sf);flex-shrink:0;}
+.logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--sf);}
+.logo em{font-style:italic;color:#FFD580;}
+.hdr-c{text-align:center;}
+.kl{font-size:11px;letter-spacing:3px;color:var(--mu);text-transform:uppercase;}
+.live{display:inline-flex;align-items:center;gap:5px;background:rgba(30,132,73,.18);border:1px solid var(--gn);color:var(--gn2);padding:4px 11px;border-radius:16px;font-size:12px;font-weight:600;margin-top:3px;}
+.dot{width:7px;height:7px;background:var(--gn2);border-radius:50%;animation:blink 1s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hdr-r{display:flex;gap:10px;align-items:center;}
+.clock{font-family:'Playfair Display',serif;font-size:20px;color:var(--sf2);}
+.hbtn{padding:6px 14px;border-radius:10px;font-size:12px;cursor:pointer;font-family:inherit;border:1px solid var(--bd);}
+.logout{background:rgba(192,57,43,.15);color:#e74c3c;border-color:var(--rd);}
+.clr{background:rgba(255,153,51,.1);color:var(--sf);}
+
+.tri{height:4px;background:linear-gradient(to right,var(--sf) 33.3%,#fff 33.3%,#fff 66.6%,var(--gn) 66.6%);flex-shrink:0;}
+
+/* CALLS ALERT */
+.calls{display:none;background:rgba(192,57,43,.15);border-bottom:2px solid var(--rd);padding:9px 24px;gap:10px;align-items:center;flex-wrap:wrap;flex-shrink:0;}
+.calls.show{display:flex;}
+.ctag{background:var(--rd);color:#fff;padding:4px 12px;border-radius:10px;font-size:12px;font-weight:700;animation:flash 1s 4;}
+@keyframes flash{0%,100%{opacity:1;}50%{opacity:.4;}}
+.res-btn{background:transparent;border:1px solid rgba(192,57,43,.4);color:#e74c3c;padding:3px 9px;border-radius:8px;font-size:11px;cursor:pointer;margin-left:4px;}
+
+/* STATS */
+.stats{display:flex;gap:12px;padding:13px 22px;background:var(--card);border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+.stats::-webkit-scrollbar{display:none;}
+.stat{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:12px;padding:10px 18px;text-align:center;min-width:90px;flex-shrink:0;}
+.sn{font-family:'Playfair Display',serif;font-size:24px;color:var(--sf);font-weight:600;}
+.sl{font-size:10px;color:var(--mu);margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* ORDERS */
+.oa{flex:1;overflow-y:auto;padding:18px 20px;}
+.oa::-webkit-scrollbar{width:4px;}
+.oa::-webkit-scrollbar-thumb{background:rgba(255,153,51,.3);border-radius:4px;}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;color:var(--mu);text-align:center;gap:12px;}
+.empty .ei{font-size:60px;}
+.empty h2{font-family:'Playfair Display',serif;font-size:22px;color:rgba(255,153,51,.35);}
+.sec-h{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;}
+.ogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin-bottom:20px;}
+
+/* ORDER CARD */
+.oc{background:var(--card);border-radius:15px;border:1.5px solid var(--bd);overflow:hidden;transition:border-color .3s;}
+.oc.st-new{border-color:var(--sf);animation:newO .6s ease;}
+.oc.st-preparing{border-color:var(--am);}
+.oc.st-ready{border-color:var(--gn2);}
+.oc.st-served{opacity:.4;border-color:rgba(255,255,255,.08);}
+@keyframes newO{0%{box-shadow:0 0 0 0 rgba(255,153,51,.7);}100%{box-shadow:0 0 0 20px rgba(255,153,51,0);}}
+.och{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);}
+.oct{font-family:'Playfair Display',serif;font-size:18px;color:var(--sf);font-weight:600;}
+.ocid{font-size:10px;color:var(--mu);}
+.octm{font-size:10px;color:var(--mu);}
+.sbg{padding:3px 9px;border-radius:9px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.snew{background:rgba(255,153,51,.12);color:var(--sf);border:1px solid var(--sf);}
+.sprep{background:rgba(230,126,34,.12);color:#E67E22;border:1px solid #E67E22;}
+.srdy{background:rgba(30,132,73,.12);color:var(--gn2);border:1px solid var(--gn2);}
+.ssvd{background:rgba(255,255,255,.05);color:#666;border:1px solid #444;}
+.ocb{padding:10px 14px;}
+.oci{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.oci:last-child{border-bottom:none;}
+.oce{font-size:18px;width:26px;text-align:center;}
+.ocn{flex:1;font-size:13px;color:var(--tx);}
+.ocq{background:var(--sf);color:var(--dk);font-size:11px;font-weight:700;padding:2px 7px;border-radius:7px;}
+.ocnt{font-size:10px;color:#E67E22;font-style:italic;padding:2px 0 4px 34px;}
+.ocf{padding:9px 14px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.octl{font-size:12px;color:var(--mu);}
+.octl strong{color:var(--sf2);}
+.acts{display:flex;gap:5px;}
+.ab{padding:5px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:opacity .15s;}
+.ab:hover{opacity:.85;}
+.ab-prep{background:var(--am);color:#fff;}
+.ab-rdy{background:var(--gn2);color:#fff;}
+.ab-svd{background:#555;color:#ccc;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login" id="loginScreen">
+  <div class="lcard">
+    <h2>🍛 Kitchen Login</h2>
+    <p>Sign in to access the kitchen display</p>
+    <input type="text" id="uname" placeholder="Username" autocomplete="username" />
+    <input type="password" id="pw" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button class="lbtn" onclick="doLogin()">Sign In</button>
+    <div class="lerr" id="lerr"></div>
+  </div>
+</div>
+
+<!-- MAIN SCREEN (hidden until login) -->
+<div id="mainScreen" style="display:none;flex-direction:column;height:100vh;">
+
+  <div class="hdr">
+    <div class="logo">Spice <em>Darbar</em></div>
+    <div class="hdr-c">
+      <div class="kl">Kitchen Display System</div>
+      <div class="live"><span class="dot"></span><span id="wsStatus">CONNECTING…</span></div>
+    </div>
+    <div class="hdr-r">
+      <div class="clock" id="clock">00:00</div>
+      <button class="hbtn clr" onclick="clearServed()">Clear Served</button>
+      <button class="hbtn logout" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="tri"></div>
+
+  <div class="calls" id="callsBar"></div>
+
+  <div class="stats">
+    <div class="stat"><div class="sn" id="sNew">0</div><div class="sl">🆕 New</div></div>
+    <div class="stat"><div class="sn" id="sPrep">0</div><div class="sl">👨‍🍳 Preparing</div></div>
+    <div class="stat"><div class="sn" id="sRdy">0</div><div class="sl">✅ Ready</div></div>
+    <div class="stat"><div class="sn" id="sSvd">0</div><div class="sl">✔ Served</div></div>
+    <div class="stat"><div class="sn" id="sRev">₹0</div><div class="sl">Revenue</div></div>
+  </div>
+
+  <div class="oa" id="ordersArea"></div>
+
+</div>
+
+<script>
+const API = window.location.origin;
+const WS  = API.replace(/^http/,'ws') + '/ws?type=kitchen';
+
+let token = localStorage.getItem('sd_token') || null;
+let orders = [];
+let ws = null;
+let calls = [];
+
+// ── CLOCK ──────────────────────────────────────────────────
+setInterval(()=>{
+  const n=new Date();
+  document.getElementById('clock').textContent =
+    String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+},1000);
+
+// ── AUTH ───────────────────────────────────────────────────
+async function doLogin() {
+  const u=document.getElementById('uname').value.trim();
+  const p=document.getElementById('pw').value;
+  const err=document.getElementById('lerr');
+  err.textContent='';
+  if(!u||!p){err.textContent='Enter username and password';return;}
+  try {
+    const r = await fetch(API+'/api/auth/login',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username:u,password:p})
+    });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error||'Login failed');
+    token = d.data.token;
+    localStorage.setItem('sd_token', token);
+    showMain();
+  } catch(e) { err.textContent=e.message; }
+}
+
+function logout() {
+  localStorage.removeItem('sd_token');
+  token=null;
+  document.getElementById('mainScreen').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+}
+
+function showMain() {
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('mainScreen').style.display='flex';
+  connectWS();
+  loadOrders();
+  loadCalls();
+}
+
+// ── WEBSOCKET ──────────────────────────────────────────────
+function connectWS() {
+  try {
+    ws = new WebSocket(WS + (token?`&token=${token}`:''));
+    ws.onopen = () => {
+      document.getElementById('wsStatus').textContent = 'LIVE';
+    };
+    ws.onmessage = (e) => {
+      try {
+        const { event, payload } = JSON.parse(e.data);
+        if (event === 'new_order') {
+          // Add to top of orders
+          orders = orders.filter(o=>o.id!==payload.id);
+          orders.unshift(payload);
+          renderOrders();
+          updateStats();
+          playBeep();
+        } else if (event === 'order_status') {
+          const idx = orders.findIndex(o=>o.id===payload.id);
+          if (idx>-1) orders[idx]=payload.order;
+          else orders.unshift(payload.order);
+          renderOrders(); updateStats();
+        } else if (event === 'waiter_call') {
+          calls.unshift(payload);
+          renderCalls();
+          playBeep(true);
+        } else if (event === 'waiter_call_resolved') {
+          calls = calls.filter(c=>c.id!==payload.id);
+          renderCalls();
+        }
+      } catch(_) {}
+    };
+    ws.onclose = () => {
+      document.getElementById('wsStatus').textContent = 'RECONNECTING…';
+      setTimeout(connectWS, 3000);
+    };
+  } catch(_) {}
+}
+
+// ── LOAD ORDERS ────────────────────────────────────────────
+async function loadOrders() {
+  try {
+    const r = await fetch(API+'/api/orders', {
+      headers:{ Authorization:'Bearer '+token }
+    });
+    const d = await r.json();
+    orders = d.data || [];
+    renderOrders();
+    updateStats();
+  } catch(e) { console.error('Load orders failed:', e.message); }
+}
+
+async function loadCalls() {
+  try {
+    const r = await fetch(API+'/api/waiter/calls', {
+      headers:{ Authorization:'Bearer '+token }
+    });
+    const d = await r.json();
+    calls = d.data || [];
+    renderCalls();
+  } catch(_) {}
+}
+
+// ── RENDER CALLS ───────────────────────────────────────────
+function renderCalls() {
+  const bar = document.getElementById('callsBar');
+  if (!calls.length) { bar.classList.remove('show'); return; }
+  bar.classList.add('show');
+  bar.innerHTML = '<strong style="color:#e74c3c;font-size:13px;">🔔 WAITER CALLS:</strong> ' +
+    calls.map(c=>`
+      <span>
+        <span class="ctag">Table ${c.table_number}</span>
+        <button class="res-btn" onclick="resolveCall(${c.id})">✓ Done</button>
+      </span>`).join('');
+}
+
+async function resolveCall(id) {
+  try {
+    await fetch(API+'/api/waiter/calls/'+id+'/resolve',{
+      method:'PATCH', headers:{ Authorization:'Bearer '+token }
+    });
+    calls = calls.filter(c=>c.id!==id);
+    renderCalls();
+  } catch(_) {}
+}
+
+// ── RENDER ORDERS ──────────────────────────────────────────
+function renderOrders() {
+  const area = document.getElementById('ordersArea');
+  if (!orders.length) {
+    area.innerHTML = `<div class="empty"><div class="ei">🍽️</div><h2>Awaiting Orders</h2><p>Customer orders from QR will appear here live.</p></div>`;
+    return;
+  }
+
+  const active  = orders.filter(o=>o.status!=='served'&&o.status!=='cancelled');
+  const done    = orders.filter(o=>o.status==='served'||o.status==='cancelled');
+
+  let html = '';
+  if (active.length) {
+    html += `<div class="sec-h">🔴 ACTIVE (${active.length})</div><div class="ogrid">${active.map(orderCard).join('')}</div>`;
+  }
+  if (done.length) {
+    html += `<div class="sec-h">✅ COMPLETED (${done.length})</div><div class="ogrid">${done.map(orderCard).join('')}</div>`;
+  }
+  area.innerHTML = html;
+}
+
+function orderCard(o) {
+  const slabels = {new:'🆕 New', preparing:'👨‍🍳 Preparing', ready:'✅ Ready', served:'✔ Served', cancelled:'✕ Cancelled'};
+  const sclass  = {new:'snew', preparing:'sprep', ready:'srdy', served:'ssvd', cancelled:'ssvd'};
+  const items   = (Array.isArray(o.items) ? o.items : []).filter(Boolean);
+  const t = new Date(o.placed_at).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+
+  return `<div class="oc st-${o.status}" id="oc-${o.id}">
+    <div class="och">
+      <div>
+        <div class="oct">🪑 Table ${o.table_number}</div>
+        <div class="ocid">#${o.order_number}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="sbg ${sclass[o.status]}">${slabels[o.status]||o.status}</div>
+        <div class="octm">🕐 ${t}</div>
+      </div>
+    </div>
+    <div class="ocb">
+      ${items.map(i=>`
+        <div class="oci">
+          <span class="oce">${i.emoji||'🍽️'}</span>
+          <span class="ocn">${i.name}</span>
+          <span class="ocq">×${i.quantity}</span>
+        </div>
+        ${i.special_note?`<div class="ocnt">📝 ${i.special_note}</div>`:''}`
+      ).join('')}
+    </div>
+    <div class="ocf">
+      <div class="octl">Total: <strong>₹${Number(o.total_amount||0).toFixed(0)}</strong></div>
+      <div class="acts">
+        ${o.status==='new'        ?`<button class="ab ab-prep" onclick="updStatus('${o.id}','preparing')">👨‍🍳 Start</button>`:''}
+        ${o.status==='preparing'  ?`<button class="ab ab-rdy"  onclick="updStatus('${o.id}','ready')">✅ Ready</button>`:''}
+        ${o.status==='ready'      ?`<button class="ab ab-svd"  onclick="updStatus('${o.id}','served')">✔ Served</button>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+async function updStatus(id, status) {
+  try {
+    const r = await fetch(API+'/api/orders/'+id+'/status', {
+      method:'PATCH',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({status})
+    });
+    const d = await r.json();
+    const idx = orders.findIndex(o=>o.id===id);
+    if(idx>-1) orders[idx]=d.data;
+    renderOrders(); updateStats();
+  } catch(e) { alert('Update failed: '+e.message); }
+}
+
+// ── STATS ──────────────────────────────────────────────────
+function updateStats() {
+  const counts={new:0,preparing:0,ready:0,served:0};
+  let rev=0;
+  orders.forEach(o=>{
+    counts[o.status]=(counts[o.status]||0)+1;
+    if(o.status==='served') rev+=Number(o.total_amount||0);
+  });
+  document.getElementById('sNew').textContent  = counts.new||0;
+  document.getElementById('sPrep').textContent = counts.preparing||0;
+  document.getElementById('sRdy').textContent  = counts.ready||0;
+  document.getElementById('sSvd').textContent  = counts.served||0;
+  document.getElementById('sRev').textContent  = '₹'+Math.round(rev);
+}
+
+function clearServed() {
+  orders = orders.filter(o=>o.status!=='served'&&o.status!=='cancelled');
+  renderOrders(); updateStats();
+}
+
+// ── AUDIO BEEP ─────────────────────────────────────────────
+function playBeep(waiter=false) {
+  try {
+    const ctx=new AudioContext();
+    const osc=ctx.createOscillator();
+    const g=ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination);
+    osc.frequency.value = waiter ? 660 : 880;
+    g.gain.setValueAtTime(.3,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+(waiter?.6:.35));
+    osc.start(); osc.stop(ctx.currentTime+(waiter?.6:.35));
+    if(waiter) setTimeout(()=>{
+      const o2=ctx.createOscillator();const g2=ctx.createGain();
+      o2.connect(g2);g2.connect(ctx.destination);
+      o2.frequency.value=880;g2.gain.setValueAtTime(.3,ctx.currentTime);
+      g2.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.35);
+      o2.start();o2.stop(ctx.currentTime+.35);
+    },400);
+  } catch(_) {}
+}
+
+// ── AUTO-LOGIN if token exists ────────────────────────────
+if (token) {
+  fetch(API+'/api/auth/me',{headers:{Authorization:'Bearer '+token}})
+    .then(r=>r.json())
+    .then(d=>{ if(d.success) showMain(); else { localStorage.removeItem('sd_token'); token=null; } })
+    .catch(()=>{});
+}
+</script>
+</body>
+</html>
