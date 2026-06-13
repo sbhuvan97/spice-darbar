@@ -34,7 +34,7 @@ router.post('/query', async (req, res) => {
         'anthropic-version':'2023-06-01'
       },
       body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+        model:'claude-sonnet-4-6',
         max_tokens:400,
         system:`You are a voice ordering assistant for "Spice Darbar" Indian restaurant.
 Table: ${table_number||'?'}. Cart: ${cartStr}.
@@ -42,17 +42,27 @@ Table: ${table_number||'?'}. Cart: ${cartStr}.
 MENU:
 ${menuList}
 
-Respond ONLY with valid JSON, no markdown. Determine intent:
-- ORDER → {"action":"add","items":[{"id":NUMBER,"qty":NUMBER,"name":"string"}],"message":"confirmation in ${replyLang}"}
-- REMOVE → {"action":"remove","items":[{"id":NUMBER}],"message":"confirmation in ${replyLang}"}
-- DISH INFO → {"action":"info","message":"answer in ${replyLang} under 50 words"}
+Respond ONLY with valid JSON, no markdown. Determine the customer's intent:
+- ADD ITEMS (e.g. "two butter chicken and one naan") → {"action":"add","items":[{"id":NUMBER,"qty":NUMBER,"name":"string"}],"message":"warm confirmation in ${replyLang} that says what was added and asks if they want anything else"}
+- REMOVE ITEMS → {"action":"remove","items":[{"id":NUMBER}],"message":"confirmation in ${replyLang}"}
+- FINALIZE / PLACE ORDER (e.g. "that's all", "place my order", "I'm done", "confirm order", "place order", "submit", "bas", "ho gaya", "that is it", "checkout") → {"action":"place_order","message":"acknowledgement in ${replyLang}"}
+- DISH INFO / QUESTION → {"action":"info","message":"answer in ${replyLang} under 40 words"}
 - CALL WAITER → {"action":"waiter","message":"ok in ${replyLang}"}
-- OTHER → {"action":"chat","message":"helpful reply in ${replyLang} under 50 words"}`,
+- GREETING / OTHER → {"action":"chat","message":"helpful warm reply in ${replyLang} under 40 words"}
+
+Match dish names flexibly across languages and spellings. If a customer says a dish name in any Indian language, map it to the correct menu ID. Always be warm and conversational.`,
         messages:[{ role:'user', content:query }]
       })
     });
 
     const aiData = await response.json();
+
+    // Log API errors so we can see what's happening
+    if (aiData.error || !response.ok) {
+      console.error('Anthropic API error:', JSON.stringify(aiData.error || aiData));
+      return res.status(500).json({ error: 'AI error: ' + (aiData.error?.message || 'unknown') });
+    }
+
     const raw = aiData.content?.[0]?.text || '{}';
     let result;
     try { result = JSON.parse(raw.replace(/```json|```/g,'').trim()); }
