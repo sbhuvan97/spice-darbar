@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Spice Darbar — Order</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
   --sf:#FF9933;--sf2:#FFB347;--sfp:#FFF3E0;
@@ -17,7 +18,6 @@
 html,body{height:100%;overflow:hidden;}
 body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dk2);display:flex;flex-direction:column;font-size:14px;}
 
-/* TOPBAR */
 .tb{background:var(--dk);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:2px solid var(--sf);}
 .logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--sf);}
 .logo em{color:#FFD580;font-style:italic;}
@@ -26,7 +26,6 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 .cb{background:var(--sf);color:var(--dk);border:none;padding:7px 14px;border-radius:14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;}
 .cc{background:var(--rd);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;}
 
-/* TABLE BANNER */
 .bnr{background:linear-gradient(135deg,var(--dk2),#3D1F0A);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .ti{font-size:13px;color:var(--sf2);display:flex;align-items:center;gap:8px;}
 .ti strong{color:#fff;font-size:15px;}
@@ -36,7 +35,6 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 .cwb.ring{animation:ring 1s 3;}
 @keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(30,132,73,.5);}50%{box-shadow:0 0 0 10px rgba(30,132,73,0);}}
 
-/* TRICOLOR */
 .tri{height:4px;background:linear-gradient(to right,var(--sf) 33.3%,#fff 33.3%,#fff 66.6%,var(--gn) 66.6%);flex-shrink:0;}
 
 /* VOICE BAR */
@@ -49,17 +47,14 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 @keyframes mic{0%,100%{background:var(--rd);}50%{background:#e74c3c;box-shadow:0 0 10px rgba(231,76,60,.5);}}
 .vt{flex:1;background:rgba(255,255,255,.06);border-radius:10px;padding:6px 10px;color:#e8d5b0;font-size:11px;min-height:30px;line-height:1.4;border:1px solid rgba(255,153,51,.12);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
-/* STATUS BAR */
 .sb-bar{background:rgba(30,132,73,.12);border-bottom:1px solid rgba(30,132,73,.2);padding:7px 16px;font-size:12px;color:var(--gn2);display:none;align-items:center;gap:8px;flex-shrink:0;}
 .sb-bar.show{display:flex;}
 
-/* CATS */
 .cats{display:flex;gap:6px;padding:11px 14px;overflow-x:auto;background:var(--cr);border-bottom:1px solid var(--bd);scrollbar-width:none;flex-shrink:0;}
 .cats::-webkit-scrollbar{display:none;}
 .cp{padding:6px 14px;border-radius:16px;border:1px solid rgba(255,153,51,.22);background:transparent;color:var(--dk2);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;}
 .cp.on,.cp:hover{background:var(--dk);color:var(--sf);border-color:var(--dk);}
 
-/* MENU */
 .ms{flex:1;overflow-y:auto;padding:11px 13px;display:flex;flex-direction:column;gap:9px;}
 .ms::-webkit-scrollbar{width:3px;}
 .ms::-webkit-scrollbar-thumb{background:var(--sf);border-radius:3px;}
@@ -76,19 +71,16 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 .dtg{font-size:9px;padding:2px 5px;border-radius:6px;background:var(--cr);color:#7A5A3A;border:1px solid rgba(255,153,51,.18);}
 .dbg{font-size:9px;padding:2px 7px;border-radius:8px;background:var(--rd);color:#fff;text-transform:uppercase;white-space:nowrap;}
 
-/* QTY */
 .qc{display:flex;align-items:center;background:var(--cr);border-radius:18px;border:1.5px solid var(--sf);overflow:hidden;flex-shrink:0;}
 .qb{background:transparent;border:none;width:28px;height:28px;font-size:16px;cursor:pointer;color:var(--sf);font-weight:700;display:flex;align-items:center;justify-content:center;}
 .qb:active{background:rgba(255,153,51,.2);}
 .qn{min-width:22px;text-align:center;font-size:13px;font-weight:700;color:var(--dk2);}
 .ab{background:var(--sf);border:none;padding:6px 13px;border-radius:18px;font-size:12px;font-weight:600;color:var(--dk);cursor:pointer;white-space:nowrap;font-family:inherit;}
 
-/* LOADING */
 .ld{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--mu);}
 .sp{width:34px;height:34px;border:3px solid rgba(255,153,51,.2);border-top-color:var(--sf);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* CART OVERLAY */
 .ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;}
 .ov.open{display:flex;align-items:flex-end;}
 .cs{background:var(--iv);width:100%;max-height:90vh;border-radius:20px 20px 0 0;display:flex;flex-direction:column;animation:su .3s ease;}
@@ -114,7 +106,6 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 .pob:disabled{background:#ccc;cursor:not-allowed;}
 .pob.ld2{opacity:.7;pointer-events:none;}
 
-/* MODALS */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
 .mo.open{display:flex;}
 .mc{background:var(--iv);border-radius:18px;padding:24px;width:92%;max-width:380px;border:1.5px solid var(--sf);}
@@ -125,16 +116,23 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 .to.sel,.to:hover{background:var(--sf);color:var(--dk);border-color:var(--sf);}
 .ctb2{width:100%;background:var(--dk);color:var(--sf);border:none;padding:13px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;}
 
-/* LANG MODAL */
-.lmo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:flex-end;}
-.lmo.open{display:flex;}
-.ls{background:var(--iv);border-radius:20px 20px 0 0;width:100%;padding:18px 16px 30px;max-height:80vh;overflow-y:auto;}
-.lst{font-family:'Playfair Display',serif;font-size:20px;color:var(--dk2);margin-bottom:14px;text-align:center;}
-.lg{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
-.lo{padding:10px 11px;border-radius:11px;border:1px solid var(--bd);background:var(--cr);cursor:pointer;font-size:13px;color:var(--dk2);transition:all .15s;}
-.lo.on,.lo:hover{background:var(--sf);color:var(--dk);border-color:var(--sf);}
+/* ── DINE TYPE WELCOME SCREEN ── */
+.welcome{position:fixed;inset:0;background:linear-gradient(160deg,var(--dk),#3D1F0A);z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;}
+.welcome.hide{display:none;}
+.w-tri{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(to right,var(--sf) 33.3%,#fff 33.3%,#fff 66.6%,var(--gn) 66.6%);}
+.w-logo{font-family:'Playfair Display',serif;font-size:38px;color:var(--sf);margin-bottom:6px;}
+.w-logo em{font-style:italic;color:#FFD580;}
+.w-sub{color:var(--sf2);font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.w-welcome{color:#e8d5b0;font-size:15px;margin-bottom:36px;}
+.w-q{color:#fff;font-size:18px;font-weight:600;margin-bottom:24px;}
+.w-opts{display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px;}
+.w-opt{background:rgba(255,153,51,.08);border:1.5px solid var(--sf);border-radius:18px;padding:22px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:16px;}
+.w-opt:active{background:rgba(255,153,51,.2);transform:scale(.98);}
+.w-opt-emoji{font-size:42px;}
+.w-opt-text{text-align:left;}
+.w-opt-title{font-family:'Playfair Display',serif;font-size:22px;color:#fff;margin-bottom:2px;}
+.w-opt-desc{font-size:12px;color:var(--sf2);}
 
-/* SUCCESS */
 .smo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;align-items:center;justify-content:center;}
 .smo.open{display:flex;}
 .smc{background:var(--iv);border-radius:18px;padding:32px 24px;width:92%;max-width:340px;text-align:center;border:1.5px solid var(--gn);}
@@ -144,29 +142,82 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 .oid{font-size:13px;font-weight:700;color:var(--dk2);background:var(--cr);padding:6px 14px;border-radius:10px;display:inline-block;margin:8px 0;}
 .sob{background:var(--sf);color:var(--dk);border:none;padding:11px 32px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px;font-family:inherit;}
 
-/* VOICE RESPONSE */
-.vr{position:fixed;bottom:0;left:0;right:0;background:var(--dk2);color:#FFD580;font-size:13px;padding:10px 15px;font-style:italic;z-index:250;border-top:1px solid rgba(255,153,51,.18);transform:translateY(100%);transition:transform .3s;}
-.vr.show{transform:translateY(0);}
+.lmo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:flex-end;}
+.lmo.open{display:flex;}
+.ls{background:var(--iv);border-radius:20px 20px 0 0;width:100%;padding:18px 16px 30px;max-height:80vh;overflow-y:auto;}
+.lst{font-family:'Playfair Display',serif;font-size:20px;color:var(--dk2);margin-bottom:14px;text-align:center;}
+.lg{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
+.lo{padding:10px 11px;border-radius:11px;border:1px solid var(--bd);background:var(--cr);cursor:pointer;font-size:13px;color:var(--dk2);transition:all .15s;}
+.lo.on,.lo:hover{background:var(--sf);color:var(--dk);border-color:var(--sf);}
 
-/* TOAST */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--dk2);color:var(--sf);padding:9px 20px;border-radius:18px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:600;white-space:nowrap;border:1px solid rgba(255,153,51,.25);}
+/* ── VOICE CONVERSATION PANEL ── */
+.vconv{position:fixed;bottom:0;left:0;right:0;background:var(--dk2);border-top:2px solid var(--sf);z-index:250;transform:translateY(100%);transition:transform .3s;max-height:60vh;display:flex;flex-direction:column;}
+.vconv.show{transform:translateY(0);}
+.vconv-head{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,153,51,.15);}
+.vconv-title{color:var(--sf);font-family:'Playfair Display',serif;font-size:16px;display:flex;align-items:center;gap:6px;}
+.vconv-close{background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer;}
+.vconv-body{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-height:120px;max-height:32vh;}
+.vmsg{padding:8px 12px;border-radius:12px;font-size:13px;line-height:1.5;max-width:85%;}
+.vmsg.user{align-self:flex-end;background:var(--sf);color:var(--dk);border-bottom-right-radius:3px;}
+.vmsg.ai{align-self:flex-start;background:rgba(255,153,51,.1);color:#e8d5b0;border:1px solid rgba(255,153,51,.2);border-bottom-left-radius:3px;}
+.vconv-foot{padding:12px 16px;border-top:1px solid rgba(255,153,51,.15);display:flex;align-items:center;gap:10px;}
+.big-mic{width:60px;height:60px;border-radius:50%;background:var(--rd);border:none;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;flex-shrink:0;transition:all .2s;}
+.big-mic.on{animation:bigmic .8s infinite;background:#e74c3c;}
+@keyframes bigmic{0%,100%{box-shadow:0 0 0 0 rgba(231,76,60,.6);}50%{box-shadow:0 0 0 16px rgba(231,76,60,0);}}
+.mic-hint{flex:1;color:var(--sf2);font-size:12px;line-height:1.4;}
+.speaking-ind{display:none;align-items:center;gap:6px;color:var(--gn2);font-size:12px;}
+.speaking-ind.show{display:flex;}
+.sound-wave{display:flex;gap:2px;align-items:center;}
+.sound-wave span{width:3px;height:12px;background:var(--gn2);border-radius:2px;animation:wave 1s infinite;}
+.sound-wave span:nth-child(2){animation-delay:.2s;}
+.sound-wave span:nth-child(3){animation-delay:.4s;}
+.sound-wave span:nth-child(4){animation-delay:.6s;}
+@keyframes wave{0%,100%{height:6px;}50%{height:16px;}}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--dk2);color:var(--sf);padding:9px 20px;border-radius:18px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:600;white-space:nowrap;border:1px solid rgba(255,153,51,.25);}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
 
+<!-- ── WELCOME / DINE TYPE SCREEN ── -->
+<div class="welcome" id="welcome">
+  <div class="w-tri"></div>
+  <div class="w-logo">Spice <em>Darbar</em></div>
+  <div class="w-sub">Authentic Indian Cuisine</div>
+  <div class="w-welcome">🙏 Namaste! Welcome to Spice Darbar</div>
+  <div class="w-q">How would you like to order?</div>
+  <div class="w-opts">
+    <div class="w-opt" onclick="chooseDineType('dinein')">
+      <span class="w-opt-emoji">🍽️</span>
+      <div class="w-opt-text">
+        <div class="w-opt-title">Dine In</div>
+        <div class="w-opt-desc">Eat at the restaurant · Select your table</div>
+      </div>
+    </div>
+    <div class="w-opt" onclick="chooseDineType('takeaway')">
+      <span class="w-opt-emoji">🛍️</span>
+      <div class="w-opt-text">
+        <div class="w-opt-title">Takeaway</div>
+        <div class="w-opt-desc">Pack it to go · Pick up at counter</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="tb">
   <div class="logo">Spice <em>Darbar</em></div>
   <div class="tb-r">
     <button class="lb" onclick="openLang()">🌐 Lang</button>
+    <button class="lb" onclick="openQR()">⬛ QR</button>
     <button class="cb" onclick="openCart()">🛒 Cart <span class="cc" id="cartCount">0</span></button>
   </div>
 </div>
 
 <div class="bnr">
-  <div class="ti">🪑 <span id="tblLabel">Select Your Table</span> <strong id="tblNum">—</strong></div>
+  <div class="ti">🪑 <span id="tblLabel">—</span> <strong id="tblNum"></strong></div>
   <div style="display:flex;gap:7px;">
-    <button class="ctb" onclick="openTableModal()">Change</button>
+    <button class="ctb" onclick="openTableModal()" id="changeBtn">Change</button>
     <button class="cwb" id="waiterBtn" onclick="callWaiter()">🔔 Call Waiter</button>
   </div>
 </div>
@@ -174,7 +225,7 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 <div class="tri"></div>
 
 <div class="vb">
-  <span class="vbl">🎙️</span>
+  <span class="vbl">🎙️ Voice</span>
   <select class="vls" id="vls" onchange="setVLang(this.value)">
     <option value="en">English</option>
     <option value="hi">हिन्दी</option>
@@ -200,8 +251,7 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
     <option value="sat">Santali</option>
     <option value="bodo">Bodo</option>
   </select>
-  <button class="vmb" id="vmb" onclick="toggleVoice()">🎙️ Speak</button>
-  <div class="vt" id="vt">Say "Add 2 Butter Chicken" or ask about any dish…</div>
+  <button class="vmb" id="vmb" onclick="openVoiceConv()">🎙️ Order by Voice</button>
 </div>
 
 <div class="sb-bar" id="statusBar"></div>
@@ -219,8 +269,27 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 
 <div class="ms" id="menuScroll"><div class="ld"><div class="sp"></div><span>Loading menu…</span></div></div>
 
-<div class="vr" id="vr"></div>
 <div class="toast" id="toast"></div>
+
+<!-- ── VOICE CONVERSATION PANEL ── -->
+<div class="vconv" id="vconv">
+  <div class="vconv-head">
+    <div class="vconv-title">🎙️ Voice Assistant</div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="vconv-close" id="speakerBtn" onclick="toggleSpeaker()" title="Replay / mute voice" style="font-size:18px;">🔊</button>
+      <button class="vconv-close" onclick="closeVoiceConv()">✕</button>
+    </div>
+  </div>
+  <div class="vconv-body" id="vconvBody"></div>
+  <div class="vconv-foot">
+    <button class="big-mic" id="bigMic" onclick="toggleVoice()">🎙️</button>
+    <div class="mic-hint" id="micHint">Tap the mic and speak your order…</div>
+    <div class="speaking-ind" id="speakingInd">
+      <div class="sound-wave"><span></span><span></span><span></span><span></span></div>
+      Speaking…
+    </div>
+  </div>
+</div>
 
 <!-- CART -->
 <div class="ov" id="cartOv" onclick="if(event.target===this)closeCart()">
@@ -232,7 +301,7 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
   </div>
 </div>
 
-<!-- TABLE SELECT -->
+<!-- TABLE -->
 <div class="mo" id="tableMo">
   <div class="mc">
     <div class="mt">🪑 Your Table Number</div>
@@ -250,12 +319,23 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
   </div>
 </div>
 
+<!-- QR -->
+<div class="smo" id="qrMo" onclick="if(event.target===this)document.getElementById('qrMo').classList.remove('open')">
+  <div class="smc" style="border-color:var(--sf);">
+    <h2 style="color:var(--sf);">📱 Scan to Open Menu</h2>
+    <p>Customers scan this with their phone camera to open the menu and order</p>
+    <div id="qrBox" style="background:#fff;padding:14px;border-radius:12px;display:inline-block;margin:10px 0;"></div>
+    <div style="font-size:11px;color:var(--mu);word-break:break-all;margin-bottom:10px;" id="qrUrlTxt"></div>
+    <button class="sob" onclick="document.getElementById('qrMo').classList.remove('open')">Close</button>
+  </div>
+</div>
+
 <!-- SUCCESS -->
 <div class="smo" id="sucMo">
   <div class="smc">
     <span class="sci">✅</span>
     <h2>Order Placed!</h2>
-    <p>Your order is with the kitchen. Your waiter will serve you shortly.</p>
+    <p id="sucMsg">Your order is with the kitchen.</p>
     <div class="oid" id="sucOid"></div>
     <p style="font-size:12px;color:var(--mu);">Estimated wait: 20–30 mins</p>
     <button class="sob" onclick="document.getElementById('sucMo').classList.remove('open')">Order More</button>
@@ -263,52 +343,70 @@ body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(-
 </div>
 
 <script>
-// ── CONFIG: auto-detects same host, works on Railway ──────────
 const API = window.location.origin;
 const WS  = API.replace(/^http/,'ws') + '/ws?type=customer';
 
 const LANGS = [
-  {c:'en',l:'English',v:'en-IN'},
-  {c:'hi',l:'हिन्दी — Hindi',v:'hi-IN'},
-  {c:'bn',l:'বাংলা — Bengali',v:'bn-IN'},
-  {c:'te',l:'తెలుగు — Telugu',v:'te-IN'},
-  {c:'mr',l:'मराठी — Marathi',v:'mr-IN'},
-  {c:'ta',l:'தமிழ் — Tamil',v:'ta-IN'},
-  {c:'gu',l:'ગુજરાતી — Gujarati',v:'gu-IN'},
-  {c:'kn',l:'ಕನ್ನಡ — Kannada',v:'kn-IN'},
-  {c:'ml',l:'മലയാളം — Malayalam',v:'ml-IN'},
-  {c:'pa',l:'ਪੰਜਾਬੀ — Punjabi',v:'pa-IN'},
-  {c:'or',l:'ଓଡ଼ିଆ — Odia',v:'or-IN'},
-  {c:'as',l:'অসমীয়া — Assamese',v:'as-IN'},
-  {c:'ur',l:'اردو — Urdu',v:'ur-IN'},
-  {c:'ne',l:'नेपाली — Nepali',v:'ne-IN'},
-  {c:'kok',l:'कोंकणी — Konkani',v:'kok-IN'},
-  {c:'mai',l:'मैथिली — Maithili',v:'mai-IN'},
-  {c:'dog',l:'डोगरी — Dogri',v:'dog-IN'},
-  {c:'sd',l:'سنڌي — Sindhi',v:'sd-IN'},
-  {c:'ks',l:'کٲشُر — Kashmiri',v:'ks-IN'},
-  {c:'mni',l:'মেইতেই — Meitei',v:'mni-IN'},
-  {c:'sat',l:'Santali',v:'sat-IN'},
-  {c:'bodo',l:'Bodo',v:'brx-IN'},
+  {c:'en',l:'English',v:'en-IN'},{c:'hi',l:'हिन्दी — Hindi',v:'hi-IN'},
+  {c:'bn',l:'বাংলা — Bengali',v:'bn-IN'},{c:'te',l:'తెలుగు — Telugu',v:'te-IN'},
+  {c:'mr',l:'मराठी — Marathi',v:'mr-IN'},{c:'ta',l:'தமிழ் — Tamil',v:'ta-IN'},
+  {c:'gu',l:'ગુજરાતી — Gujarati',v:'gu-IN'},{c:'kn',l:'ಕನ್ನಡ — Kannada',v:'kn-IN'},
+  {c:'ml',l:'മലയാളം — Malayalam',v:'ml-IN'},{c:'pa',l:'ਪੰਜਾਬੀ — Punjabi',v:'pa-IN'},
+  {c:'or',l:'ଓଡ଼ିଆ — Odia',v:'or-IN'},{c:'as',l:'অসমীয়া — Assamese',v:'as-IN'},
+  {c:'ur',l:'اردو — Urdu',v:'ur-IN'},{c:'ne',l:'नेपाली — Nepali',v:'ne-IN'},
+  {c:'kok',l:'कोंकणी — Konkani',v:'kok-IN'},{c:'mai',l:'मैथिली — Maithili',v:'mai-IN'},
+  {c:'dog',l:'डोगरी — Dogri',v:'dog-IN'},{c:'sd',l:'سنڌي — Sindhi',v:'sd-IN'},
+  {c:'ks',l:'کٲشُر — Kashmiri',v:'ks-IN'},{c:'mni',l:'মেইতেই — Meitei',v:'mni-IN'},
+  {c:'sat',l:'Santali',v:'sat-IN'},{c:'bodo',l:'Bodo',v:'brx-IN'},
   {c:'sa',l:'संस्कृत — Sanskrit',v:'sa-IN'},
 ];
 
-let menu=[],cart={},tableNum=null,selTable=null;
+// confirmation phrases per language
+const CONFIRM_PHRASES = {
+  en:'Your order has been placed successfully! It will be served shortly. Thank you!',
+  hi:'आपका ऑर्डर सफलतापूर्वक दे दिया गया है! जल्द ही परोसा जाएगा। धन्यवाद!',
+  bn:'আপনার অর্ডার সফলভাবে দেওয়া হয়েছে! শীঘ্রই পরিবেশন করা হবে। ধন্যবাদ!',
+  te:'మీ ఆర్డర్ విజయవంతంగా ఇవ్వబడింది! త్వరలో అందించబడుతుంది. ధన్యవాదాలు!',
+  ta:'உங்கள் ஆர்டர் வெற்றிகரமாக வழங்கப்பட்டது! விரைவில் பரிமாறப்படும். நன்றி!',
+  mr:'तुमची ऑर्डर यशस्वीरित्या दिली गेली आहे! लवकरच सर्व्ह केली जाईल. धन्यवाद!',
+  gu:'તમારો ઓર્ડર સફળતાપૂર્વક આપવામાં આવ્યો છે! ટૂંક સમયમાં પીરસવામાં આવશે. આભાર!',
+  kn:'ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ನೀಡಲಾಗಿದೆ! ಶೀಘ್ರದಲ್ಲೇ ಬಡಿಸಲಾಗುತ್ತದೆ. ಧನ್ಯವಾದಗಳು!',
+  ml:'നിങ്ങളുടെ ഓർഡർ വിജയകരമായി നൽകി! ഉടൻ വിളമ്പും. നന്ദി!',
+  pa:'ਤੁਹਾਡਾ ਆਰਡਰ ਸਫਲਤਾਪੂਰਵਕ ਦਿੱਤਾ ਗਿਆ ਹੈ! ਜਲਦੀ ਪਰੋਸਿਆ ਜਾਵੇਗਾ। ਧੰਨਵਾਦ!',
+};
+
+let menu=[],cart={},tableNum=null,selTable=null,dineType=null;
 let lang='en',vlang='en-IN',vcode='en';
 let rec=null,listening=false,cat='all';
-let ws=null;
+let ws=null,convActive=false;
 
-// ── WEBSOCKET (real-time status updates) ──────────────────────
+// ── DINE TYPE ───────────────────────────────────────────────
+function chooseDineType(type) {
+  dineType = type;
+  document.getElementById('welcome').classList.add('hide');
+  if (type === 'dinein') {
+    document.getElementById('tblLabel').textContent = 'Select Your Table';
+    document.getElementById('changeBtn').style.display = '';
+    setTimeout(openTableModal, 300);
+  } else {
+    // takeaway — no table needed
+    tableNum = 0; // 0 = takeaway
+    document.getElementById('tblLabel').textContent = '🛍️ Takeaway Order';
+    document.getElementById('tblNum').textContent = '';
+    document.getElementById('changeBtn').style.display = 'none';
+  }
+}
+
+// ── WEBSOCKET ───────────────────────────────────────────────
 function connectWS() {
   try {
     ws = new WebSocket(WS);
-    ws.onopen = () => console.log('WS connected');
     ws.onmessage = (e) => {
       try {
         const { event, payload } = JSON.parse(e.data);
         if (event === 'order_status') {
-          const msgs = { preparing:'👨‍🍳 Kitchen is preparing your order!', ready:'✅ Your order is ready! Waiter is coming.' };
-          if (msgs[payload.status]) showStatus(msgs[payload.status]);
+          const m = {preparing:'👨‍🍳 Kitchen is preparing your order!', ready:'✅ Your order is ready!'};
+          if (m[payload.status]) showStatus(m[payload.status]);
         }
       } catch(_) {}
     };
@@ -316,7 +414,6 @@ function connectWS() {
   } catch(_) {}
 }
 
-// ── API helper ────────────────────────────────────────────────
 async function apiFetch(method, path, body=null) {
   const opts = { method, headers: { 'Content-Type':'application/json' } };
   if (body) opts.body = JSON.stringify(body);
@@ -326,7 +423,6 @@ async function apiFetch(method, path, body=null) {
   return d;
 }
 
-// ── INIT ──────────────────────────────────────────────────────
 async function init() {
   connectWS();
   try {
@@ -335,29 +431,22 @@ async function init() {
     renderMenu('all');
   } catch(e) {
     document.getElementById('menuScroll').innerHTML =
-      `<div class="ld" style="color:var(--rd);">⚠️ Could not load menu.<br><small>${e.message}</small><br><button onclick="init()" style="margin-top:10px;padding:6px 14px;background:var(--sf);border:none;border-radius:10px;cursor:pointer;font-weight:600;">Retry</button></div>`;
+      `<div class="ld" style="color:var(--rd);">⚠️ Could not load menu.<br><small>${e.message}</small></div>`;
   }
-  setTimeout(openTableModal, 400);
 }
 
-// ── RENDER MENU ───────────────────────────────────────────────
 function renderMenu(c) {
   cat = c;
   const el = document.getElementById('menuScroll');
   const items = c==='all' ? menu : c==='veg' ? menu.filter(i=>i.is_veg) : menu.filter(i=>i.category===c);
   if (!items.length) { el.innerHTML=`<div class="ld">No items here.</div>`; return; }
-
   el.innerHTML = items.map(item => {
     const q = cart[item.id]?.qty || 0;
     return `<div class="dc">
       <div class="de">${item.emoji}</div>
       <div class="di">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px;">
-          <div>
-            <div class="dn">${item.name}</div>
-            <div class="dl">${item.local_name||''}</div>
-            <span class="dr">${item.region}</span>
-          </div>
+          <div><div class="dn">${item.name}</div><div class="dl">${item.local_name||''}</div><span class="dr">${item.region}</span></div>
           ${item.badge?`<span class="dbg">${item.badge}</span>`:''}
         </div>
         <div class="dd">${item.description}</div>
@@ -365,13 +454,7 @@ function renderMenu(c) {
           <div class="dp">₹${item.price}</div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
             <div class="dts">${(item.tags||[]).map(t=>`<span class="dtg">${t}</span>`).join('')}</div>
-            ${q>0
-              ?`<div class="qc">
-                  <button class="qb" onclick="chQty(${item.id},-1)">−</button>
-                  <span class="qn">${q}</span>
-                  <button class="qb" onclick="chQty(${item.id},1)">+</button>
-                </div>`
-              :`<button class="ab" onclick="addItem(${item.id})">+ Add</button>`}
+            ${q>0?`<div class="qc"><button class="qb" onclick="chQty(${item.id},-1)">−</button><span class="qn">${q}</span><button class="qb" onclick="chQty(${item.id},1)">+</button></div>`:`<button class="ab" onclick="addItem(${item.id})">+ Add</button>`}
           </div>
         </div>
       </div>
@@ -379,116 +462,75 @@ function renderMenu(c) {
   }).join('');
 }
 
-function fcat(c,btn) {
-  document.querySelectorAll('.cp').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  renderMenu(c);
-}
+function fcat(c,btn){document.querySelectorAll('.cp').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderMenu(c);}
 
-// ── CART ──────────────────────────────────────────────────────
-function addItem(id) {
-  const item = menu.find(m=>m.id===id); if(!item) return;
-  if(!cart[id]) cart[id]={item,qty:0,note:''};
-  cart[id].qty++;
-  updCount(); renderMenu(cat); showToast(`${item.name} added ✓`);
-}
-function chQty(id,d) {
-  if(!cart[id]) return;
-  cart[id].qty+=d;
-  if(cart[id].qty<=0) delete cart[id];
-  updCount(); renderMenu(cat);
-}
-function updCount() {
-  document.getElementById('cartCount').textContent =
-    Object.values(cart).reduce((s,e)=>s+e.qty,0);
-}
+function addItem(id){const item=menu.find(m=>m.id===id);if(!item)return;if(!cart[id])cart[id]={item,qty:0,note:''};cart[id].qty++;updCount();renderMenu(cat);showToast(`${item.name} added ✓`);}
+function chQty(id,d){if(!cart[id])return;cart[id].qty+=d;if(cart[id].qty<=0)delete cart[id];updCount();renderMenu(cat);}
+function updCount(){document.getElementById('cartCount').textContent=Object.values(cart).reduce((s,e)=>s+e.qty,0);}
 
-function openCart() {
-  document.getElementById('cartOv').classList.add('open');
-  renderCartBody();
-}
-function closeCart() { document.getElementById('cartOv').classList.remove('open'); }
+function openCart(){document.getElementById('cartOv').classList.add('open');renderCartBody();}
+function closeCart(){document.getElementById('cartOv').classList.remove('open');}
 
-function renderCartBody() {
-  const body = document.getElementById('cartBody');
-  const sum  = document.getElementById('cartSum');
-  const entries = Object.values(cart);
-  if (!entries.length) {
-    body.innerHTML=`<div class="ce">🍽️<br><br>Your cart is empty.<br>Add dishes from the menu!</div>`;
-    sum.innerHTML=''; return;
-  }
-  body.innerHTML = entries.map(e=>`
-    <div class="ci">
-      <div class="cie">${e.item.emoji}</div>
-      <div class="cii">
-        <div class="cin">${e.item.name}</div>
-        <input class="ni" placeholder="Special instructions…" value="${e.note||''}"
-               oninput="cart[${e.item.id}]&&(cart[${e.item.id}].note=this.value)"/>
-      </div>
+function renderCartBody(){
+  const body=document.getElementById('cartBody'),sum=document.getElementById('cartSum');
+  const entries=Object.values(cart);
+  if(!entries.length){body.innerHTML=`<div class="ce">🍽️<br><br>Your cart is empty.<br>Add dishes from the menu!</div>`;sum.innerHTML='';return;}
+  body.innerHTML=entries.map(e=>`
+    <div class="ci"><div class="cie">${e.item.emoji}</div>
+      <div class="cii"><div class="cin">${e.item.name}</div>
+        <input class="ni" placeholder="Special instructions…" value="${e.note||''}" oninput="cart[${e.item.id}]&&(cart[${e.item.id}].note=this.value)"/></div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
         <div class="cip">₹${e.item.price*e.qty}</div>
-        <div class="cic">
-          <button class="cib" onclick="cqty(${e.item.id},-1)">−</button>
-          <span style="min-width:20px;text-align:center;font-weight:700;">${e.qty}</span>
-          <button class="cib" onclick="cqty(${e.item.id},1)">+</button>
-        </div>
-      </div>
-    </div>`).join('');
-
-  const sub  = entries.reduce((s,e)=>s+e.item.price*e.qty,0);
-  const gst  = Math.round(sub*.05);
-  const tot  = sub+gst;
-  sum.innerHTML = `
+        <div class="cic"><button class="cib" onclick="cqty(${e.item.id},-1)">−</button><span style="min-width:20px;text-align:center;font-weight:700;">${e.qty}</span><button class="cib" onclick="cqty(${e.item.id},1)">+</button></div>
+      </div></div>`).join('');
+  const sub=entries.reduce((s,e)=>s+e.item.price*e.qty,0),gst=Math.round(sub*.05),tot=sub+gst;
+  const ready = (dineType==='takeaway') || (tableNum!==null && tableNum>0);
+  sum.innerHTML=`
     <div class="sr"><span>Subtotal</span><span>₹${sub}</span></div>
     <div class="sr"><span>GST (5%)</span><span>₹${gst}</span></div>
     <div class="sr tot"><span>Total</span><span>₹${tot}</span></div>
-    <button class="pob" id="pob" onclick="placeOrder()" ${!tableNum?'disabled':''}>
-      ${!tableNum?'⚠️ Select Table First':`🍽️ Place Order · ₹${tot}`}
-    </button>`;
+    <button class="pob" id="pob" onclick="placeOrder()" ${!ready?'disabled':''}>${!ready?'⚠️ Select Table First':`🍽️ Place Order · ₹${tot}`}</button>`;
 }
+function cqty(id,d){if(!cart[id])return;cart[id].qty+=d;if(cart[id].qty<=0)delete cart[id];updCount();renderCartBody();renderMenu(cat);}
 
-function cqty(id,d) {
-  if(!cart[id]) return;
-  cart[id].qty+=d;
-  if(cart[id].qty<=0) delete cart[id];
-  updCount(); renderCartBody(); renderMenu(cat);
-}
-
-// ── PLACE ORDER ───────────────────────────────────────────────
-async function placeOrder() {
-  if (!tableNum) { showToast('⚠️ Select your table first!'); return; }
-  const entries = Object.values(cart);
-  if (!entries.length) return;
-  const btn = document.getElementById('pob');
-  if (btn) { btn.classList.add('ld2'); btn.textContent='⏳ Placing…'; }
+// ── PLACE ORDER ─────────────────────────────────────────────
+async function placeOrder(isVoice=false) {
+  const ready = (dineType==='takeaway') || (tableNum!==null && tableNum>0);
+  if (!ready){ showToast('⚠️ Select your table first!'); return false; }
+  const entries=Object.values(cart);
+  if(!entries.length){ if(isVoice) return false; return false; }
+  const btn=document.getElementById('pob');
+  if(btn){btn.classList.add('ld2');btn.textContent='⏳ Placing…';}
   try {
-    const res = await apiFetch('POST','/api/orders',{
-      table_number: tableNum,
+    const res=await apiFetch('POST','/api/orders',{
+      table_number: tableNum || 0,
       customer_lang: lang,
-      items: entries.map(e=>({ menu_item_id:e.item.id, quantity:e.qty, special_note:e.note||null }))
+      notes: dineType==='takeaway' ? 'TAKEAWAY ORDER' : null,
+      items: entries.map(e=>({menu_item_id:e.item.id,quantity:e.qty,special_note:e.note||null}))
     });
-    cart={}; updCount(); renderMenu(cat); closeCart();
-    document.getElementById('sucOid').textContent = `#${res.data.order_number} · Table ${tableNum}`;
+    cart={};updCount();renderMenu(cat);closeCart();
+    const loc = dineType==='takeaway' ? 'Takeaway' : 'Table '+tableNum;
+    document.getElementById('sucOid').textContent=`#${res.data.order_number} · ${loc}`;
+    document.getElementById('sucMsg').textContent = dineType==='takeaway'
+      ? 'Your takeaway order is with the kitchen. Pick up at the counter.'
+      : 'Your order is with the kitchen. Your waiter will serve you shortly.';
     document.getElementById('sucMo').classList.add('open');
-  } catch(e) {
+    return res.data;
+  } catch(e){
     showToast(`❌ ${e.message}`);
-    if(btn){btn.classList.remove('ld2'); renderCartBody();}
+    if(btn){btn.classList.remove('ld2');renderCartBody();}
+    return false;
   }
 }
 
-// ── TABLE ─────────────────────────────────────────────────────
-function openTableModal() {
-  const g = document.getElementById('tableGrid');
-  g.innerHTML = Array.from({length:20},(_,i)=>i+1).map(n=>
-    `<div class="to ${n===selTable?'sel':''}" onclick="selT(${n},this)">${n}</div>`).join('');
+// ── TABLE ───────────────────────────────────────────────────
+function openTableModal(){
+  const g=document.getElementById('tableGrid');
+  g.innerHTML=Array.from({length:20},(_,i)=>i+1).map(n=>`<div class="to ${n===selTable?'sel':''}" onclick="selT(${n},this)">${n}</div>`).join('');
   document.getElementById('tableMo').classList.add('open');
 }
-function selT(n,el) {
-  selTable=n;
-  document.querySelectorAll('.to').forEach(e=>e.classList.remove('sel'));
-  el.classList.add('sel');
-}
-function confirmTable() {
+function selT(n,el){selTable=n;document.querySelectorAll('.to').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');}
+function confirmTable(){
   if(!selTable){showToast('Tap a table number');return;}
   tableNum=selTable;
   document.getElementById('tblNum').textContent='Table '+tableNum;
@@ -497,118 +539,263 @@ function confirmTable() {
   showToast('✅ Table '+tableNum+' confirmed!');
 }
 
-// ── CALL WAITER ───────────────────────────────────────────────
-async function callWaiter() {
-  if (!tableNum){showToast('Select table first');return;}
+// ── CALL WAITER ─────────────────────────────────────────────
+async function callWaiter(){
+  if(dineType==='takeaway'){showToast('Takeaway orders pick up at counter');return;}
+  if(!tableNum){showToast('Select table first');return;}
   const btn=document.getElementById('waiterBtn');
-  btn.disabled=true; btn.textContent='⏳ Calling…';
-  try { await apiFetch('POST','/api/waiter/call',{table_number:tableNum}); }
-  catch(_) {}
-  btn.classList.add('ring');
-  showToast('🔔 Waiter is on the way!');
-  setTimeout(()=>{ btn.disabled=false; btn.classList.remove('ring'); btn.innerHTML='🔔 Call Waiter'; },5000);
+  btn.disabled=true;btn.textContent='⏳ Calling…';
+  try{await apiFetch('POST','/api/waiter/call',{table_number:tableNum});}catch(_){}
+  btn.classList.add('ring');showToast('🔔 Waiter is on the way!');
+  setTimeout(()=>{btn.disabled=false;btn.classList.remove('ring');btn.textContent='🔔 Call Waiter';},5000);
 }
 
-// ── LANGUAGE ──────────────────────────────────────────────────
-function openLang() {
-  document.getElementById('langGrid').innerHTML = LANGS.map(l=>
-    `<div class="lo ${l.c===lang?'on':''}" onclick="setLang('${l.c}','${l.v}',this)">${l.l}</div>`
-  ).join('');
+// ── LANGUAGE ────────────────────────────────────────────────
+function openLang(){
+  document.getElementById('langGrid').innerHTML=LANGS.map(l=>`<div class="lo ${l.c===lang?'on':''}" onclick="setLang('${l.c}','${l.v}',this)">${l.l}</div>`).join('');
   document.getElementById('langMo').classList.add('open');
 }
-function setLang(c,v,el) {
-  lang=c; vlang=v; vcode=c;
-  document.querySelectorAll('.lo').forEach(e=>e.classList.remove('on'));
-  el.classList.add('on');
-  const s=document.getElementById('vls');
-  for(let o of s.options) if(o.value===c){o.selected=true;break;}
-  document.getElementById('langMo').classList.remove('open');
-  showToast('Language set ✓');
+function setLang(c,v,el){
+  lang=c;vlang=v;vcode=c;
+  document.querySelectorAll('.lo').forEach(e=>e.classList.remove('on'));el.classList.add('on');
+  const s=document.getElementById('vls');for(let o of s.options)if(o.value===c){o.selected=true;break;}
+  document.getElementById('langMo').classList.remove('open');showToast('Language set ✓');
 }
-function setVLang(c) {
-  vcode=c;
-  const l=LANGS.find(x=>x.c===c);
-  if(l) vlang=l.v;
+function setVLang(c){vcode=c;const l=LANGS.find(x=>x.c===c);if(l)vlang=l.v;}
+
+// ── VOICE CONVERSATION ──────────────────────────────────────
+function openVoiceConv(){
+  convActive=true;
+  document.getElementById('vconv').classList.add('show');
+  const body=document.getElementById('vconvBody');
+  if(!body.children.length){
+    addVMsg('ai', getGreeting());
+    speak(getGreeting(), ()=>{ /* after greeting, auto-listen */ });
+  }
+}
+function closeVoiceConv(){
+  convActive=false;
+  document.getElementById('vconv').classList.remove('show');
+  if(listening) stopListening();
+  window.speechSynthesis.cancel();
 }
 
-// ── VOICE ─────────────────────────────────────────────────────
-function toggleVoice() { if(listening) stopV(); else startV(); }
+function getGreeting(){
+  const g={
+    en:"Namaste! What would you like to order today? You can say things like 'two butter chicken and one naan'.",
+    hi:"नमस्ते! आज आप क्या ऑर्डर करना चाहेंगे? आप कह सकते हैं जैसे 'दो बटर चिकन और एक नान'।",
+    ta:"வணக்கம்! இன்று என்ன ஆர்டர் செய்ய விரும்புகிறீர்கள்?",
+    te:"నమస్తే! ఈరోజు మీరు ఏమి ఆర్డర్ చేయాలనుకుంటున్నారు?",
+    bn:"নমস্কার! আজ আপনি কী অর্ডার করতে চান?",
+    mr:"नमस्कार! आज तुम्हाला काय ऑर्डर करायचे आहे?",
+    gu:"નમસ્તે! આજે તમે શું ઓર્ડર કરવા માંગો છો?",
+    kn:"ನಮಸ್ತೆ! ಇಂದು ನೀವು ಏನು ಆರ್ಡರ್ ಮಾಡಲು ಬಯಸುತ್ತೀರಿ?",
+    ml:"നമസ്തേ! ഇന്ന് നിങ്ങൾ എന്ത് ഓർഡർ ചെയ്യാൻ ആഗ്രഹിക്കുന്നു?",
+    pa:"ਸਤ ਸ੍ਰੀ ਅਕਾਲ! ਅੱਜ ਤੁਸੀਂ ਕੀ ਆਰਡਰ ਕਰਨਾ ਚਾਹੋਗੇ?",
+  };
+  return g[vcode] || g.en;
+}
 
-function startV() {
+function addVMsg(who, text){
+  const body=document.getElementById('vconvBody');
+  const d=document.createElement('div');
+  d.className='vmsg '+who;
+  d.textContent=text;
+  body.appendChild(d);
+  body.scrollTop=body.scrollHeight;
+}
+
+function toggleVoice(){if(listening)stopListening();else startListening();}
+
+function startListening(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){showVR('⚠️ Speech recognition requires Chrome browser.');return;}
-  rec=new SR(); rec.lang=vlang; rec.interimResults=true; rec.continuous=false;
+  if(!SR){addVMsg('ai','⚠️ Voice needs Chrome or Safari browser.');return;}
+  // stop any speaking first
+  window.speechSynthesis.cancel();
+  rec=new SR();
+  rec.lang=vlang;
+  rec.interimResults=true;
+  rec.continuous=false;
+  rec.maxAlternatives=1;
   rec.onstart=()=>{
     listening=true;
-    const b=document.getElementById('vmb'); b.classList.add('on'); b.textContent='⏹ Stop';
-    document.getElementById('vt').textContent='🔴 Listening…';
+    document.getElementById('bigMic').classList.add('on');
+    document.getElementById('micHint').textContent='🔴 Listening… speak now';
   };
   rec.onresult=(e)=>{
     let f='',x='';
     for(let i=e.resultIndex;i<e.results.length;i++){
-      if(e.results[i].isFinal) f+=e.results[i][0].transcript;
+      if(e.results[i].isFinal)f+=e.results[i][0].transcript;
       else x+=e.results[i][0].transcript;
     }
-    document.getElementById('vt').textContent=f||x;
-    if(f) processVoice(f);
+    document.getElementById('micHint').textContent=(f||x)||'🔴 Listening…';
+    if(f){ stopListening(); addVMsg('user',f); processVoice(f); }
   };
-  rec.onerror=(e)=>{showVR('⚠️ '+e.error+' — allow microphone');stopV();};
-  rec.onend=()=>stopV();
-  rec.start();
-}
-function stopV() {
-  listening=false; if(rec) rec.stop();
-  const b=document.getElementById('vmb'); b.classList.remove('on'); b.textContent='🎙️ Speak';
+  rec.onerror=(e)=>{
+    let msg='⚠️ ';
+    if(e.error==='no-speech') msg+='I didn\'t hear anything. Tap mic and try again.';
+    else if(e.error==='not-allowed') msg+='Please allow microphone access in your browser.';
+    else if(e.error==='network') msg+='Network issue. Check your connection.';
+    else msg+=e.error;
+    document.getElementById('micHint').textContent=msg;
+    stopListening();
+  };
+  rec.onend=()=>{ if(listening) stopListening(); };
+  try{ rec.start(); }catch(_){}
 }
 
-async function processVoice(query) {
-  document.getElementById('vt').textContent=query;
-  showVR('⏳ Processing…');
+function stopListening(){
+  listening=false;
+  if(rec){try{rec.stop();}catch(_){}}
+  document.getElementById('bigMic').classList.remove('on');
+  if(document.getElementById('micHint').textContent.includes('Listening'))
+    document.getElementById('micHint').textContent='Tap the mic and speak…';
+}
+
+async function processVoice(query){
+  document.getElementById('micHint').textContent='⏳ Thinking…';
   try {
-    const res = await apiFetch('POST','/api/voice/query',{
+    const res=await apiFetch('POST','/api/voice/query',{
       query, table_number:tableNum, lang:vcode,
-      cart: Object.values(cart).map(e=>({id:e.item.id,qty:e.qty,name:e.item.name}))
+      cart:Object.values(cart).map(e=>({id:e.item.id,qty:e.qty,name:e.item.name}))
     });
-    const r = res.data;
-    if(r.action==='add'&&r.items) {
-      r.items.forEach(({id,qty})=>{
-        const item=menu.find(m=>m.id===id); if(!item) return;
-        if(!cart[id]) cart[id]={item,qty:0,note:''};
-        cart[id].qty+=(qty||1);
-      });
-      updCount(); renderMenu(cat);
-    } else if(r.action==='remove'&&r.items) {
-      r.items.forEach(({id})=>delete cart[id]);
-      updCount(); renderMenu(cat);
-    } else if(r.action==='waiter') {
+    const r=res.data;
+
+    if(r.action==='add'&&r.items){
+      r.items.forEach(({id,qty})=>{const item=menu.find(m=>m.id===id);if(!item)return;if(!cart[id])cart[id]={item,qty:0,note:''};cart[id].qty+=(qty||1);});
+      updCount();renderMenu(cat);
+    } else if(r.action==='remove'&&r.items){
+      r.items.forEach(({id})=>delete cart[id]);updCount();renderMenu(cat);
+    } else if(r.action==='waiter'){
       callWaiter();
+    } else if(r.action==='confirm_order' || r.action==='place_order'){
+      // user wants to finalize — read back order then place
+      await confirmAndPlaceByVoice();
+      return;
     }
-    showVR(r.message||'Done!');
-    speak(r.message);
-  } catch(e) { showVR('Error: '+e.message); }
+
+    addVMsg('ai', r.message||'Done!');
+    document.getElementById('micHint').textContent='Tap mic to continue, or say "that\'s all"';
+    // speak response, then auto-listen again for continuous conversation
+    speak(r.message, ()=>{ if(convActive) setTimeout(()=>{ if(convActive && !listening) startListening(); }, 400); });
+  } catch(e){
+    addVMsg('ai','Sorry, I had trouble. Please try again.');
+    document.getElementById('micHint').textContent='Tap mic to try again';
+  }
 }
 
-function showVR(msg) {
-  const el=document.getElementById('vr');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),5000);
+// reads back full order then places it
+async function confirmAndPlaceByVoice(){
+  const entries=Object.values(cart);
+  if(!entries.length){
+    const m="Your cart is empty. What would you like to order?";
+    addVMsg('ai',m); speak(m,()=>{if(convActive)setTimeout(()=>startListening(),400);});
+    return;
+  }
+  // build readback
+  const sub=entries.reduce((s,e)=>s+e.item.price*e.qty,0);
+  const gst=Math.round(sub*.05),tot=sub+gst;
+  const itemsText=entries.map(e=>`${e.qty} ${e.item.name}`).join(', ');
+  const readback = (vcode==='hi')
+    ? `आपका ऑर्डर: ${itemsText}. कुल ${tot} रुपये. ऑर्डर दे रहे हैं...`
+    : `Your order is: ${itemsText}. Total ${tot} rupees. Placing your order now...`;
+  addVMsg('ai', readback);
+
+  // speak readback, then place order, then confirm
+  speak(readback, async ()=>{
+    const result = await placeOrder(true);
+    if(result){
+      const confirmMsg = CONFIRM_PHRASES[vcode] || CONFIRM_PHRASES.en;
+      addVMsg('ai', '✅ ' + confirmMsg);
+      speak(confirmMsg, ()=>{ closeVoiceConv(); });
+    } else {
+      const m = 'Sorry, something went wrong placing your order.';
+      addVMsg('ai', m); speak(m);
+    }
+  });
 }
-function showStatus(msg) {
-  const el=document.getElementById('statusBar');
-  el.textContent=msg; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),8000);
+
+// ── SPEECH SYNTHESIS with callback ──────────────────────────
+let voicesLoaded=false;
+function loadVoices(){ window.speechSynthesis.getVoices(); voicesLoaded=true; }
+if('speechSynthesis' in window){
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged=loadVoices;
 }
-function speak(text) {
-  if(!window.speechSynthesis||!text) return;
+
+let speakerOn=true, lastSpoken='';
+
+function speak(text, onDone){
+  lastSpoken = text || lastSpoken;
+  if(!('speechSynthesis' in window)||!text||!speakerOn){ if(onDone)onDone(); return; }
   window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text); u.lang=vlang; u.rate=.92;
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=vlang;
+  u.rate=0.95;
+  u.pitch=1;
+  u.volume=1;          // maximum loudness
+  // try to pick a matching voice
+  const voices=window.speechSynthesis.getVoices();
+  const match=voices.find(v=>v.lang===vlang)||voices.find(v=>v.lang.startsWith(vcode))||voices.find(v=>v.lang.startsWith('en'));
+  if(match) u.voice=match;
+  document.getElementById('speakingInd').classList.add('show');
+  document.getElementById('micHint').style.display='none';
+  u.onend=()=>{
+    document.getElementById('speakingInd').classList.remove('show');
+    document.getElementById('micHint').style.display='';
+    if(onDone)onDone();
+  };
+  u.onerror=()=>{
+    document.getElementById('speakingInd').classList.remove('show');
+    document.getElementById('micHint').style.display='';
+    if(onDone)onDone();
+  };
   window.speechSynthesis.speak(u);
 }
-function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2800);
+
+// 🔊 speaker button — tap to replay last message; long behaviour: toggle mute
+function toggleSpeaker(){
+  const btn=document.getElementById('speakerBtn');
+  if(speakerOn && lastSpoken){
+    // replay last message
+    speak(lastSpoken);
+  } else if(!speakerOn){
+    speakerOn=true;
+    btn.textContent='🔊';
+    showToast('Voice on');
+    if(lastSpoken) speak(lastSpoken);
+  }
 }
+// double-tap / right area to mute
+let spkTapTimer=null;
+document.addEventListener('DOMContentLoaded',()=>{
+  const btn=document.getElementById('speakerBtn');
+  if(btn){
+    btn.addEventListener('dblclick',()=>{
+      speakerOn=!speakerOn;
+      btn.textContent=speakerOn?'🔊':'🔇';
+      window.speechSynthesis.cancel();
+      showToast(speakerOn?'Voice on':'Voice muted');
+    });
+  }
+});
+
+// ── QR CODE ─────────────────────────────────────────────────
+function openQR(){
+  document.getElementById('qrMo').classList.add('open');
+  const url=window.location.origin;
+  document.getElementById('qrUrlTxt').textContent=url;
+  const box=document.getElementById('qrBox');
+  box.innerHTML='';
+  if(window.QRCode){
+    new QRCode(box,{text:url,width:200,height:200,colorDark:'#1A0A02',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.H});
+  } else {
+    box.innerHTML='<div style="padding:20px;color:#888;">QR library loading… please retry</div>';
+  }
+}
+
+function showStatus(msg){const el=document.getElementById('statusBar');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),8000);}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);}
 
 init();
 </script>
