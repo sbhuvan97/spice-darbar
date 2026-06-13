@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Spice Darbar — Order</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sf:#FF9933;--sf2:#FFB347;--sfp:#FFF3E0;
+  --rd:#C0392B;--gn:#1E8449;--gn2:#27AE60;
+  --dk:#1A0A02;--dk2:#2C1408;--iv:#FEFAF4;--cr:#F5EDD8;
+  --bd:rgba(255,153,51,0.18);--mu:#8B6914;
+  --sh:0 2px 12px rgba(192,57,43,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--iv);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dk2);display:flex;flex-direction:column;font-size:14px;}
+
+/* TOPBAR */
+.tb{background:var(--dk);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:2px solid var(--sf);}
+.logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--sf);}
+.logo em{color:#FFD580;font-style:italic;}
+.tb-r{display:flex;gap:8px;align-items:center;}
+.lb{background:transparent;border:1px solid rgba(255,153,51,0.4);color:var(--sf);padding:5px 10px;border-radius:14px;font-size:11px;cursor:pointer;font-family:inherit;}
+.cb{background:var(--sf);color:var(--dk);border:none;padding:7px 14px;border-radius:14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.cc{background:var(--rd);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;}
+
+/* TABLE BANNER */
+.bnr{background:linear-gradient(135deg,var(--dk2),#3D1F0A);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.ti{font-size:13px;color:var(--sf2);display:flex;align-items:center;gap:8px;}
+.ti strong{color:#fff;font-size:15px;}
+.ctb{background:transparent;border:1px solid rgba(255,153,51,0.3);color:var(--sf);font-size:11px;padding:4px 10px;border-radius:10px;cursor:pointer;}
+.cwb{background:var(--gn);color:#fff;border:none;padding:7px 14px;border-radius:14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:opacity .2s;}
+.cwb:disabled{opacity:.6;cursor:not-allowed;}
+.cwb.ring{animation:ring 1s 3;}
+@keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(30,132,73,.5);}50%{box-shadow:0 0 0 10px rgba(30,132,73,0);}}
+
+/* TRICOLOR */
+.tri{height:4px;background:linear-gradient(to right,var(--sf) 33.3%,#fff 33.3%,#fff 66.6%,var(--gn) 66.6%);flex-shrink:0;}
+
+/* VOICE BAR */
+.vb{background:var(--dk2);padding:9px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0;border-bottom:1px solid rgba(255,153,51,.12);}
+.vbl{color:var(--sf);font-size:12px;font-weight:500;white-space:nowrap;}
+.vls{background:transparent;border:1px solid rgba(255,153,51,.3);color:var(--sf);padding:5px 7px;border-radius:10px;font-size:11px;cursor:pointer;outline:none;max-width:90px;font-family:inherit;}
+.vls option{background:var(--dk);}
+.vmb{background:var(--rd);color:#fff;border:none;padding:7px 13px;border-radius:14px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;}
+.vmb.on{animation:mic .7s infinite;}
+@keyframes mic{0%,100%{background:var(--rd);}50%{background:#e74c3c;box-shadow:0 0 10px rgba(231,76,60,.5);}}
+.vt{flex:1;background:rgba(255,255,255,.06);border-radius:10px;padding:6px 10px;color:#e8d5b0;font-size:11px;min-height:30px;line-height:1.4;border:1px solid rgba(255,153,51,.12);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* STATUS BAR */
+.sb-bar{background:rgba(30,132,73,.12);border-bottom:1px solid rgba(30,132,73,.2);padding:7px 16px;font-size:12px;color:var(--gn2);display:none;align-items:center;gap:8px;flex-shrink:0;}
+.sb-bar.show{display:flex;}
+
+/* CATS */
+.cats{display:flex;gap:6px;padding:11px 14px;overflow-x:auto;background:var(--cr);border-bottom:1px solid var(--bd);scrollbar-width:none;flex-shrink:0;}
+.cats::-webkit-scrollbar{display:none;}
+.cp{padding:6px 14px;border-radius:16px;border:1px solid rgba(255,153,51,.22);background:transparent;color:var(--dk2);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;}
+.cp.on,.cp:hover{background:var(--dk);color:var(--sf);border-color:var(--dk);}
+
+/* MENU */
+.ms{flex:1;overflow-y:auto;padding:11px 13px;display:flex;flex-direction:column;gap:9px;}
+.ms::-webkit-scrollbar{width:3px;}
+.ms::-webkit-scrollbar-thumb{background:var(--sf);border-radius:3px;}
+.dc{background:#fff;border-radius:14px;border:1px solid var(--bd);display:flex;gap:11px;padding:11px;align-items:flex-start;box-shadow:var(--sh);}
+.de{font-size:38px;flex-shrink:0;width:52px;height:52px;background:linear-gradient(135deg,#FDF0E0,#F5DDB0);border-radius:11px;display:flex;align-items:center;justify-content:center;}
+.di{flex:1;min-width:0;}
+.dn{font-family:'Playfair Display',serif;font-size:16px;color:var(--dk2);line-height:1.2;margin-bottom:2px;}
+.dl{font-size:11px;color:var(--sf);font-style:italic;margin-bottom:3px;}
+.dr{font-size:10px;background:var(--sfp);color:#8B4513;padding:2px 7px;border-radius:8px;display:inline-block;margin-bottom:5px;}
+.dd{font-size:11px;color:#7A5A3A;line-height:1.45;margin-bottom:8px;}
+.dft{display:flex;align-items:center;justify-content:space-between;}
+.dp{font-family:'Playfair Display',serif;font-size:17px;color:var(--sf);font-weight:600;}
+.dts{display:flex;gap:3px;flex-wrap:wrap;}
+.dtg{font-size:9px;padding:2px 5px;border-radius:6px;background:var(--cr);color:#7A5A3A;border:1px solid rgba(255,153,51,.18);}
+.dbg{font-size:9px;padding:2px 7px;border-radius:8px;background:var(--rd);color:#fff;text-transform:uppercase;white-space:nowrap;}
+
+/* QTY */
+.qc{display:flex;align-items:center;background:var(--cr);border-radius:18px;border:1.5px solid var(--sf);overflow:hidden;flex-shrink:0;}
+.qb{background:transparent;border:none;width:28px;height:28px;font-size:16px;cursor:pointer;color:var(--sf);font-weight:700;display:flex;align-items:center;justify-content:center;}
+.qb:active{background:rgba(255,153,51,.2);}
+.qn{min-width:22px;text-align:center;font-size:13px;font-weight:700;color:var(--dk2);}
+.ab{background:var(--sf);border:none;padding:6px 13px;border-radius:18px;font-size:12px;font-weight:600;color:var(--dk);cursor:pointer;white-space:nowrap;font-family:inherit;}
+
+/* LOADING */
+.ld{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--mu);}
+.sp{width:34px;height:34px;border:3px solid rgba(255,153,51,.2);border-top-color:var(--sf);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* CART OVERLAY */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;}
+.ov.open{display:flex;align-items:flex-end;}
+.cs{background:var(--iv);width:100%;max-height:90vh;border-radius:20px 20px 0 0;display:flex;flex-direction:column;animation:su .3s ease;}
+@keyframes su{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.sh{width:40px;height:4px;background:var(--bd);border-radius:2px;margin:10px auto 0;}
+.shd{padding:13px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);}
+.sht{font-family:'Playfair Display',serif;font-size:20px;color:var(--dk2);}
+.xb{background:none;border:none;font-size:22px;color:#999;cursor:pointer;}
+.sbd{flex:1;overflow-y:auto;padding:13px 18px;}
+.ce{text-align:center;padding:40px 20px;color:var(--mu);}
+.ci{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd);}
+.cie{font-size:26px;width:38px;height:38px;background:var(--cr);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cii{flex:1;}
+.cin{font-size:14px;font-weight:600;color:var(--dk2);}
+.cip{font-family:'Playfair Display',serif;font-size:16px;color:var(--sf);font-weight:600;}
+.cic{display:flex;align-items:center;gap:4px;}
+.cib{background:var(--cr);border:1px solid var(--bd);width:26px;height:26px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;}
+.ni{width:100%;background:var(--cr);border:1px solid var(--bd);border-radius:8px;padding:5px 8px;font-size:11px;font-family:inherit;color:var(--dk2);outline:none;margin-top:4px;}
+.sm{border-top:2px solid var(--bd);padding:13px 18px;}
+.sr{display:flex;justify-content:space-between;font-size:13px;color:var(--dk2);margin-bottom:6px;}
+.sr.tot{font-size:17px;font-weight:700;}
+.pob{width:100%;background:var(--sf);color:var(--dk);border:none;padding:14px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;font-family:inherit;}
+.pob:disabled{background:#ccc;cursor:not-allowed;}
+.pob.ld2{opacity:.7;pointer-events:none;}
+
+/* MODALS */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
+.mo.open{display:flex;}
+.mc{background:var(--iv);border-radius:18px;padding:24px;width:92%;max-width:380px;border:1.5px solid var(--sf);}
+.mt{font-family:'Playfair Display',serif;font-size:22px;color:var(--dk2);margin-bottom:5px;}
+.ms2{font-size:13px;color:var(--mu);margin-bottom:18px;}
+.tg{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:18px;}
+.to{padding:10px 4px;border-radius:10px;border:1.5px solid var(--bd);background:var(--cr);font-size:14px;font-weight:700;text-align:center;cursor:pointer;color:var(--dk2);transition:all .15s;}
+.to.sel,.to:hover{background:var(--sf);color:var(--dk);border-color:var(--sf);}
+.ctb2{width:100%;background:var(--dk);color:var(--sf);border:none;padding:13px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;}
+
+/* LANG MODAL */
+.lmo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:flex-end;}
+.lmo.open{display:flex;}
+.ls{background:var(--iv);border-radius:20px 20px 0 0;width:100%;padding:18px 16px 30px;max-height:80vh;overflow-y:auto;}
+.lst{font-family:'Playfair Display',serif;font-size:20px;color:var(--dk2);margin-bottom:14px;text-align:center;}
+.lg{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
+.lo{padding:10px 11px;border-radius:11px;border:1px solid var(--bd);background:var(--cr);cursor:pointer;font-size:13px;color:var(--dk2);transition:all .15s;}
+.lo.on,.lo:hover{background:var(--sf);color:var(--dk);border-color:var(--sf);}
+
+/* SUCCESS */
+.smo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;align-items:center;justify-content:center;}
+.smo.open{display:flex;}
+.smc{background:var(--iv);border-radius:18px;padding:32px 24px;width:92%;max-width:340px;text-align:center;border:1.5px solid var(--gn);}
+.sci{font-size:56px;display:block;margin-bottom:12px;}
+.smc h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--gn);margin-bottom:8px;}
+.smc p{font-size:13px;color:var(--mu);line-height:1.6;margin-bottom:5px;}
+.oid{font-size:13px;font-weight:700;color:var(--dk2);background:var(--cr);padding:6px 14px;border-radius:10px;display:inline-block;margin:8px 0;}
+.sob{background:var(--sf);color:var(--dk);border:none;padding:11px 32px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px;font-family:inherit;}
+
+/* VOICE RESPONSE */
+.vr{position:fixed;bottom:0;left:0;right:0;background:var(--dk2);color:#FFD580;font-size:13px;padding:10px 15px;font-style:italic;z-index:250;border-top:1px solid rgba(255,153,51,.18);transform:translateY(100%);transition:transform .3s;}
+.vr.show{transform:translateY(0);}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--dk2);color:var(--sf);padding:9px 20px;border-radius:18px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:600;white-space:nowrap;border:1px solid rgba(255,153,51,.25);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="tb">
+  <div class="logo">Spice <em>Darbar</em></div>
+  <div class="tb-r">
+    <button class="lb" onclick="openLang()">🌐 Lang</button>
+    <button class="cb" onclick="openCart()">🛒 Cart <span class="cc" id="cartCount">0</span></button>
+  </div>
+</div>
+
+<div class="bnr">
+  <div class="ti">🪑 <span id="tblLabel">Select Your Table</span> <strong id="tblNum">—</strong></div>
+  <div style="display:flex;gap:7px;">
+    <button class="ctb" onclick="openTableModal()">Change</button>
+    <button class="cwb" id="waiterBtn" onclick="callWaiter()">🔔 Call Waiter</button>
+  </div>
+</div>
+
+<div class="tri"></div>
+
+<div class="vb">
+  <span class="vbl">🎙️</span>
+  <select class="vls" id="vls" onchange="setVLang(this.value)">
+    <option value="en">English</option>
+    <option value="hi">हिन्दी</option>
+    <option value="bn">বাংলা</option>
+    <option value="te">తెలుగు</option>
+    <option value="mr">मराठी</option>
+    <option value="ta">தமிழ்</option>
+    <option value="gu">ગુજરાતી</option>
+    <option value="kn">ಕನ್ನಡ</option>
+    <option value="ml">മലയാളം</option>
+    <option value="pa">ਪੰਜਾਬੀ</option>
+    <option value="or">ଓଡ଼ିଆ</option>
+    <option value="as">অসমীয়া</option>
+    <option value="ur">اردو</option>
+    <option value="ne">नेपाली</option>
+    <option value="kok">कोंकणी</option>
+    <option value="mai">मैथिली</option>
+    <option value="sa">Sanskrit</option>
+    <option value="dog">Dogri</option>
+    <option value="sd">Sindhi</option>
+    <option value="ks">Kashmiri</option>
+    <option value="mni">Meitei</option>
+    <option value="sat">Santali</option>
+    <option value="bodo">Bodo</option>
+  </select>
+  <button class="vmb" id="vmb" onclick="toggleVoice()">🎙️ Speak</button>
+  <div class="vt" id="vt">Say "Add 2 Butter Chicken" or ask about any dish…</div>
+</div>
+
+<div class="sb-bar" id="statusBar"></div>
+
+<div class="cats">
+  <button class="cp on" onclick="fcat('all',this)">🍽️ All</button>
+  <button class="cp" onclick="fcat('starters',this)">🥗 Starters</button>
+  <button class="cp" onclick="fcat('breads',this)">🫓 Breads</button>
+  <button class="cp" onclick="fcat('mains',this)">🍛 Mains</button>
+  <button class="cp" onclick="fcat('rice',this)">🍚 Rice</button>
+  <button class="cp" onclick="fcat('desserts',this)">🍮 Sweets</button>
+  <button class="cp" onclick="fcat('drinks',this)">🥤 Drinks</button>
+  <button class="cp" onclick="fcat('veg',this)">🌱 Veg</button>
+</div>
+
+<div class="ms" id="menuScroll"><div class="ld"><div class="sp"></div><span>Loading menu…</span></div></div>
+
+<div class="vr" id="vr"></div>
+<div class="toast" id="toast"></div>
+
+<!-- CART -->
+<div class="ov" id="cartOv" onclick="if(event.target===this)closeCart()">
+  <div class="cs">
+    <div class="sh"></div>
+    <div class="shd"><div class="sht">🛒 Your Order</div><button class="xb" onclick="closeCart()">✕</button></div>
+    <div class="sbd" id="cartBody"></div>
+    <div class="sm" id="cartSum"></div>
+  </div>
+</div>
+
+<!-- TABLE SELECT -->
+<div class="mo" id="tableMo">
+  <div class="mc">
+    <div class="mt">🪑 Your Table Number</div>
+    <div class="ms2">Tap your table number below</div>
+    <div class="tg" id="tableGrid"></div>
+    <button class="ctb2" onclick="confirmTable()">Confirm Table</button>
+  </div>
+</div>
+
+<!-- LANG -->
+<div class="lmo" id="langMo" onclick="if(event.target===this)document.getElementById('langMo').classList.remove('open')">
+  <div class="ls">
+    <div class="lst">🌐 Choose Language</div>
+    <div class="lg" id="langGrid"></div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="smo" id="sucMo">
+  <div class="smc">
+    <span class="sci">✅</span>
+    <h2>Order Placed!</h2>
+    <p>Your order is with the kitchen. Your waiter will serve you shortly.</p>
+    <div class="oid" id="sucOid"></div>
+    <p style="font-size:12px;color:var(--mu);">Estimated wait: 20–30 mins</p>
+    <button class="sob" onclick="document.getElementById('sucMo').classList.remove('open')">Order More</button>
+  </div>
+</div>
+
+<script>
+// ── CONFIG: auto-detects same host, works on Railway ──────────
+const API = window.location.origin;
+const WS  = API.replace(/^http/,'ws') + '/ws?type=customer';
+
+const LANGS = [
+  {c:'en',l:'English',v:'en-IN'},
+  {c:'hi',l:'हिन्दी — Hindi',v:'hi-IN'},
+  {c:'bn',l:'বাংলা — Bengali',v:'bn-IN'},
+  {c:'te',l:'తెలుగు — Telugu',v:'te-IN'},
+  {c:'mr',l:'मराठी — Marathi',v:'mr-IN'},
+  {c:'ta',l:'தமிழ் — Tamil',v:'ta-IN'},
+  {c:'gu',l:'ગુજરાતી — Gujarati',v:'gu-IN'},
+  {c:'kn',l:'ಕನ್ನಡ — Kannada',v:'kn-IN'},
+  {c:'ml',l:'മലയാളം — Malayalam',v:'ml-IN'},
+  {c:'pa',l:'ਪੰਜਾਬੀ — Punjabi',v:'pa-IN'},
+  {c:'or',l:'ଓଡ଼ିଆ — Odia',v:'or-IN'},
+  {c:'as',l:'অসমীয়া — Assamese',v:'as-IN'},
+  {c:'ur',l:'اردو — Urdu',v:'ur-IN'},
+  {c:'ne',l:'नेपाली — Nepali',v:'ne-IN'},
+  {c:'kok',l:'कोंकणी — Konkani',v:'kok-IN'},
+  {c:'mai',l:'मैथिली — Maithili',v:'mai-IN'},
+  {c:'dog',l:'डोगरी — Dogri',v:'dog-IN'},
+  {c:'sd',l:'سنڌي — Sindhi',v:'sd-IN'},
+  {c:'ks',l:'کٲشُر — Kashmiri',v:'ks-IN'},
+  {c:'mni',l:'মেইতেই — Meitei',v:'mni-IN'},
+  {c:'sat',l:'Santali',v:'sat-IN'},
+  {c:'bodo',l:'Bodo',v:'brx-IN'},
+  {c:'sa',l:'संस्कृत — Sanskrit',v:'sa-IN'},
+];
+
+let menu=[],cart={},tableNum=null,selTable=null;
+let lang='en',vlang='en-IN',vcode='en';
+let rec=null,listening=false,cat='all';
+let ws=null;
+
+// ── WEBSOCKET (real-time status updates) ──────────────────────
+function connectWS() {
+  try {
+    ws = new WebSocket(WS);
+    ws.onopen = () => console.log('WS connected');
+    ws.onmessage = (e) => {
+      try {
+        const { event, payload } = JSON.parse(e.data);
+        if (event === 'order_status') {
+          const msgs = { preparing:'👨‍🍳 Kitchen is preparing your order!', ready:'✅ Your order is ready! Waiter is coming.' };
+          if (msgs[payload.status]) showStatus(msgs[payload.status]);
+        }
+      } catch(_) {}
+    };
+    ws.onclose = () => setTimeout(connectWS, 3000);
+  } catch(_) {}
+}
+
+// ── API helper ────────────────────────────────────────────────
+async function apiFetch(method, path, body=null) {
+  const opts = { method, headers: { 'Content-Type':'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(API + path, opts);
+  const d = await r.json();
+  if (!r.ok) throw new Error(d.error || 'Request failed');
+  return d;
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+async function init() {
+  connectWS();
+  try {
+    const res = await apiFetch('GET', '/api/menu');
+    menu = res.data;
+    renderMenu('all');
+  } catch(e) {
+    document.getElementById('menuScroll').innerHTML =
+      `<div class="ld" style="color:var(--rd);">⚠️ Could not load menu.<br><small>${e.message}</small><br><button onclick="init()" style="margin-top:10px;padding:6px 14px;background:var(--sf);border:none;border-radius:10px;cursor:pointer;font-weight:600;">Retry</button></div>`;
+  }
+  setTimeout(openTableModal, 400);
+}
+
+// ── RENDER MENU ───────────────────────────────────────────────
+function renderMenu(c) {
+  cat = c;
+  const el = document.getElementById('menuScroll');
+  const items = c==='all' ? menu : c==='veg' ? menu.filter(i=>i.is_veg) : menu.filter(i=>i.category===c);
+  if (!items.length) { el.innerHTML=`<div class="ld">No items here.</div>`; return; }
+
+  el.innerHTML = items.map(item => {
+    const q = cart[item.id]?.qty || 0;
+    return `<div class="dc">
+      <div class="de">${item.emoji}</div>
+      <div class="di">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px;">
+          <div>
+            <div class="dn">${item.name}</div>
+            <div class="dl">${item.local_name||''}</div>
+            <span class="dr">${item.region}</span>
+          </div>
+          ${item.badge?`<span class="dbg">${item.badge}</span>`:''}
+        </div>
+        <div class="dd">${item.description}</div>
+        <div class="dft">
+          <div class="dp">₹${item.price}</div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
+            <div class="dts">${(item.tags||[]).map(t=>`<span class="dtg">${t}</span>`).join('')}</div>
+            ${q>0
+              ?`<div class="qc">
+                  <button class="qb" onclick="chQty(${item.id},-1)">−</button>
+                  <span class="qn">${q}</span>
+                  <button class="qb" onclick="chQty(${item.id},1)">+</button>
+                </div>`
+              :`<button class="ab" onclick="addItem(${item.id})">+ Add</button>`}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function fcat(c,btn) {
+  document.querySelectorAll('.cp').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderMenu(c);
+}
+
+// ── CART ──────────────────────────────────────────────────────
+function addItem(id) {
+  const item = menu.find(m=>m.id===id); if(!item) return;
+  if(!cart[id]) cart[id]={item,qty:0,note:''};
+  cart[id].qty++;
+  updCount(); renderMenu(cat); showToast(`${item.name} added ✓`);
+}
+function chQty(id,d) {
+  if(!cart[id]) return;
+  cart[id].qty+=d;
+  if(cart[id].qty<=0) delete cart[id];
+  updCount(); renderMenu(cat);
+}
+function updCount() {
+  document.getElementById('cartCount').textContent =
+    Object.values(cart).reduce((s,e)=>s+e.qty,0);
+}
+
+function openCart() {
+  document.getElementById('cartOv').classList.add('open');
+  renderCartBody();
+}
+function closeCart() { document.getElementById('cartOv').classList.remove('open'); }
+
+function renderCartBody() {
+  const body = document.getElementById('cartBody');
+  const sum  = document.getElementById('cartSum');
+  const entries = Object.values(cart);
+  if (!entries.length) {
+    body.innerHTML=`<div class="ce">🍽️<br><br>Your cart is empty.<br>Add dishes from the menu!</div>`;
+    sum.innerHTML=''; return;
+  }
+  body.innerHTML = entries.map(e=>`
+    <div class="ci">
+      <div class="cie">${e.item.emoji}</div>
+      <div class="cii">
+        <div class="cin">${e.item.name}</div>
+        <input class="ni" placeholder="Special instructions…" value="${e.note||''}"
+               oninput="cart[${e.item.id}]&&(cart[${e.item.id}].note=this.value)"/>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
+        <div class="cip">₹${e.item.price*e.qty}</div>
+        <div class="cic">
+          <button class="cib" onclick="cqty(${e.item.id},-1)">−</button>
+          <span style="min-width:20px;text-align:center;font-weight:700;">${e.qty}</span>
+          <button class="cib" onclick="cqty(${e.item.id},1)">+</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  const sub  = entries.reduce((s,e)=>s+e.item.price*e.qty,0);
+  const gst  = Math.round(sub*.05);
+  const tot  = sub+gst;
+  sum.innerHTML = `
+    <div class="sr"><span>Subtotal</span><span>₹${sub}</span></div>
+    <div class="sr"><span>GST (5%)</span><span>₹${gst}</span></div>
+    <div class="sr tot"><span>Total</span><span>₹${tot}</span></div>
+    <button class="pob" id="pob" onclick="placeOrder()" ${!tableNum?'disabled':''}>
+      ${!tableNum?'⚠️ Select Table First':`🍽️ Place Order · ₹${tot}`}
+    </button>`;
+}
+
+function cqty(id,d) {
+  if(!cart[id]) return;
+  cart[id].qty+=d;
+  if(cart[id].qty<=0) delete cart[id];
+  updCount(); renderCartBody(); renderMenu(cat);
+}
+
+// ── PLACE ORDER ───────────────────────────────────────────────
+async function placeOrder() {
+  if (!tableNum) { showToast('⚠️ Select your table first!'); return; }
+  const entries = Object.values(cart);
+  if (!entries.length) return;
+  const btn = document.getElementById('pob');
+  if (btn) { btn.classList.add('ld2'); btn.textContent='⏳ Placing…'; }
+  try {
+    const res = await apiFetch('POST','/api/orders',{
+      table_number: tableNum,
+      customer_lang: lang,
+      items: entries.map(e=>({ menu_item_id:e.item.id, quantity:e.qty, special_note:e.note||null }))
+    });
+    cart={}; updCount(); renderMenu(cat); closeCart();
+    document.getElementById('sucOid').textContent = `#${res.data.order_number} · Table ${tableNum}`;
+    document.getElementById('sucMo').classList.add('open');
+  } catch(e) {
+    showToast(`❌ ${e.message}`);
+    if(btn){btn.classList.remove('ld2'); renderCartBody();}
+  }
+}
+
+// ── TABLE ─────────────────────────────────────────────────────
+function openTableModal() {
+  const g = document.getElementById('tableGrid');
+  g.innerHTML = Array.from({length:20},(_,i)=>i+1).map(n=>
+    `<div class="to ${n===selTable?'sel':''}" onclick="selT(${n},this)">${n}</div>`).join('');
+  document.getElementById('tableMo').classList.add('open');
+}
+function selT(n,el) {
+  selTable=n;
+  document.querySelectorAll('.to').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function confirmTable() {
+  if(!selTable){showToast('Tap a table number');return;}
+  tableNum=selTable;
+  document.getElementById('tblNum').textContent='Table '+tableNum;
+  document.getElementById('tblLabel').textContent='You are at';
+  document.getElementById('tableMo').classList.remove('open');
+  showToast('✅ Table '+tableNum+' confirmed!');
+}
+
+// ── CALL WAITER ───────────────────────────────────────────────
+async function callWaiter() {
+  if (!tableNum){showToast('Select table first');return;}
+  const btn=document.getElementById('waiterBtn');
+  btn.disabled=true; btn.textContent='⏳ Calling…';
+  try { await apiFetch('POST','/api/waiter/call',{table_number:tableNum}); }
+  catch(_) {}
+  btn.classList.add('ring');
+  showToast('🔔 Waiter is on the way!');
+  setTimeout(()=>{ btn.disabled=false; btn.classList.remove('ring'); btn.innerHTML='🔔 Call Waiter'; },5000);
+}
+
+// ── LANGUAGE ──────────────────────────────────────────────────
+function openLang() {
+  document.getElementById('langGrid').innerHTML = LANGS.map(l=>
+    `<div class="lo ${l.c===lang?'on':''}" onclick="setLang('${l.c}','${l.v}',this)">${l.l}</div>`
+  ).join('');
+  document.getElementById('langMo').classList.add('open');
+}
+function setLang(c,v,el) {
+  lang=c; vlang=v; vcode=c;
+  document.querySelectorAll('.lo').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
+  const s=document.getElementById('vls');
+  for(let o of s.options) if(o.value===c){o.selected=true;break;}
+  document.getElementById('langMo').classList.remove('open');
+  showToast('Language set ✓');
+}
+function setVLang(c) {
+  vcode=c;
+  const l=LANGS.find(x=>x.c===c);
+  if(l) vlang=l.v;
+}
+
+// ── VOICE ─────────────────────────────────────────────────────
+function toggleVoice() { if(listening) stopV(); else startV(); }
+
+function startV() {
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){showVR('⚠️ Speech recognition requires Chrome browser.');return;}
+  rec=new SR(); rec.lang=vlang; rec.interimResults=true; rec.continuous=false;
+  rec.onstart=()=>{
+    listening=true;
+    const b=document.getElementById('vmb'); b.classList.add('on'); b.textContent='⏹ Stop';
+    document.getElementById('vt').textContent='🔴 Listening…';
+  };
+  rec.onresult=(e)=>{
+    let f='',x='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) f+=e.results[i][0].transcript;
+      else x+=e.results[i][0].transcript;
+    }
+    document.getElementById('vt').textContent=f||x;
+    if(f) processVoice(f);
+  };
+  rec.onerror=(e)=>{showVR('⚠️ '+e.error+' — allow microphone');stopV();};
+  rec.onend=()=>stopV();
+  rec.start();
+}
+function stopV() {
+  listening=false; if(rec) rec.stop();
+  const b=document.getElementById('vmb'); b.classList.remove('on'); b.textContent='🎙️ Speak';
+}
+
+async function processVoice(query) {
+  document.getElementById('vt').textContent=query;
+  showVR('⏳ Processing…');
+  try {
+    const res = await apiFetch('POST','/api/voice/query',{
+      query, table_number:tableNum, lang:vcode,
+      cart: Object.values(cart).map(e=>({id:e.item.id,qty:e.qty,name:e.item.name}))
+    });
+    const r = res.data;
+    if(r.action==='add'&&r.items) {
+      r.items.forEach(({id,qty})=>{
+        const item=menu.find(m=>m.id===id); if(!item) return;
+        if(!cart[id]) cart[id]={item,qty:0,note:''};
+        cart[id].qty+=(qty||1);
+      });
+      updCount(); renderMenu(cat);
+    } else if(r.action==='remove'&&r.items) {
+      r.items.forEach(({id})=>delete cart[id]);
+      updCount(); renderMenu(cat);
+    } else if(r.action==='waiter') {
+      callWaiter();
+    }
+    showVR(r.message||'Done!');
+    speak(r.message);
+  } catch(e) { showVR('Error: '+e.message); }
+}
+
+function showVR(msg) {
+  const el=document.getElementById('vr');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),5000);
+}
+function showStatus(msg) {
+  const el=document.getElementById('statusBar');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),8000);
+}
+function speak(text) {
+  if(!window.speechSynthesis||!text) return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text); u.lang=vlang; u.rate=.92;
+  window.speechSynthesis.speak(u);
+}
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+init();
+</script>
+</body>
+</html>
